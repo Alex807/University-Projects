@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -27,8 +28,8 @@ public abstract class FileReader {
 		return date;
 	}
 	
-	public static ArrayList<Person> readDataFromFile(String fileName, String inLineSeparator) throws IOException{ 
-		ArrayList<Person> dataSource = new ArrayList<Person>();
+	public static List<Person> readDataFromFile(String fileName, String inLineSeparator) throws IOException{ 
+		List<Person> dataSource = new ArrayList<Person>();
 		BufferedReader fileCharStream = null;
 		
 		try { 
@@ -52,9 +53,7 @@ public abstract class FileReader {
 					dataSource.add(currentPerson); 
 				} 
 				catch (NoSuchElementException | DateTimeParseException exception) { //case when a line has NOT given format, we ignore it and keep reading
-					int lineIndex = dataSource.size() + 1;
-					System.err.println(String.format("Line format is incorrect in file '%s' at line %d !\n", fileName, lineIndex));
-					dataSource.add(null); 
+					dataSource.add(null);  //add 'null' element as a problem flag
 				}
 			}
 		}

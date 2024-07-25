@@ -1,0 +1,1 @@
+java -cp .\bin alex.Main E:\Github\Personal-Projects\Java_projects\Person1.txt

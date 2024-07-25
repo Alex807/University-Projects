@@ -1,0 +1,32 @@
+Popescu, Andrei, 15/5/1985, Inginer Software
+Ionescu, Maria, 20/8/1990, Doctor 
+Georgescu, Mihai, 5/12/1978, Profesor gimnaziu
+Dumitrescu, Elena, 1/3/1983, Avocat
+Marinescu, Ioan, 22/11/1992, Programator
+Vasilescu, Ana, 9/7/1988, Designer
+Radulescu, Alex, 14/4/1975, Arhitect
+Serban, Roxana, 30/1/1981, Contabil
+Constantinescu, Vlad, 7/6/1986, Jurnalist Criminalistica
+Stoica, Laura, 19/7/1924, Medic Veterinar 
+Popescu, Andrei, 15/5/1985, Inginer Software
+Ioneccu, Maria, 20/8/1990, Doctor 
+Georgescu, Mihai, 5/12/1978, Profesor gimnaziu
+Dumitrescu, Elena, 1/3/1983, Avocat
+Marinescu, Ioan, 22/11/1992, Programator
+Vasilescu, Ana, 9/7/1988, Designer
+Radu, Alina, 30/4/1991, Contabil
+Nistor, Daniel, 17/2/1980, Manager
+
+Popa, Irina, 12/10/1985, Farmacist
+Constantin, Alexandru, 3/6/1987, Arhitect
+Neagu, Claudia, 25/9/1993, Medic Veterinar
+
+Mihail, Adrian, 14/1/1984, Inginer Construcții
+Dragomir, Silvia, 8/8/1989, Consultant
+Matei, George, 7/5/1981, Jurnalist
+Cristea, Gabriela, 13/11/1982, Psiholog
+Filip, Cosmin, 19/7/1990, Analist Financiar
+Toma, Bianca, 21/3/1986, Profesor Universitar
+Diaconu, Radu, 11/2/1983, Inginer Electronist
+Voicu, Cristina, 28/12/1991, Specialist Marketing
+Luca, Paul, 4/4/1988, Tehnician IT
