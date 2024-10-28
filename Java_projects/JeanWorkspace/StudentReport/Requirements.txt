@@ -1,0 +1,15 @@
+Sa se realizeze o aplicatie java care sa calculeze diverse raportari despre elevii unei scoli. 
+Raportarile vor fi scrise fiecare in cate un fisier text, iar citirea se va face dintr-un fisier text primit ca argument pe parametrii functiei main.
+
+Fisierul de intrare contine pentru fiecare elev urmatoarele informatii:
+nume prenume, data nasterii (zz/ll/aaaa), clasa (3 A), localitatea de domiciliu, media generala
+
+Raportarile pot fi urmatoarele:
+1. Afisarea elevilor per clasa dupa medie (desc)
+2. Afisarea alfabetica a elevilor per clasa 
+3. Afisarea elevilor dupa data nasterii
+4. Afisarea dupa localitati 
+
+In versiunea 2 citirea se face din arhiva zip si raportarile se salveaza tot in arhiva zip.
+
+OBS: Sortarea poate fi sort din collections si interfata comparator din java.util .

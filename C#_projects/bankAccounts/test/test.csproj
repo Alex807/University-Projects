@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo> <!-- Dezactivează generarea automată -->
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Add path to the project you want to test -->
+    <ProjectReference Include="E:\CFLP\lab2\bankAccounts\bankAccounts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.9.2" /> <!-- Aici este modificat la 3.0.0 -->
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0-pre.20">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference> <!-- Asigură-te că folosești versiuni compatibile -->
+</ItemGroup>
+
+
+  <!-- Target to clean and restore before running tests -->
+  <Target Name="PrepareForTesting" BeforeTargets="Test">
+    <RemoveDir Directories="$(OutputPath)" />
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <Exec Command="dotnet restore" />
+</Target>
+
+
+</Project>

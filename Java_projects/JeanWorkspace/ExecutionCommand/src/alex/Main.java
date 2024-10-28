@@ -1,12 +1,11 @@
 package alex;
 
-import report.Person;
-import ro.report.Car;
+import test.Person;
 
 public class Main {
 	public static void main(String args[]) { 
-		Car car = new Car();
-		Person p = new Person(car);
-		System.out.println("Hello World p = " + p + ", c=" + car);
+			Person father = new Person("DU-TE LA MUNCA!");
+			
+			System.out.println(father.showDetails());
 	}
 }

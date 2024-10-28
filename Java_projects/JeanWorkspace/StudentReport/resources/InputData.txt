@@ -1,0 +1,106 @@
+Ionescu Maria, 12/03/2007, 8 A, București, 8.94
+Popescu Andrei, 25/07/2008, 6 B, Cluj-Napoca, 9.21
+Dumitru Ioana, 14/10/2009, 3 C, Timișoara, 8.61
+Iliescu Mihai, 01/01/2006, 10 D, Iași, 9.13
+Marin Alina, 30/04/2011, 2 E, Constanța, 9.48
+Preda Vlad, 09/02/2005, 11 F, Craiova, 8.72
+Gheorghiu Sorina, 22/06/2012, 1 A, Brașov, 9.15
+Stan Lucian, 05/09/2007, 8 C, Galați, 8.68
+Radu Elena, 18/12/2006, 9 B, Oradea, 9.09
+Anghel Cristina, 10/11/2005, 11 A, Ploiești, 8.82
+Tudor Alexandru, 03/08/2012, 1 F, Brăila, 9.33
+Georgescu Anca, 27/01/2011, 2 C, Sibiu, 9.27
+Popa Bogdan, 15/05/2004, 12 E, Bacău, 8.56
+Matei Bianca, 08/09/2009, 4 D, Arad, 8.91
+Cojocaru Liviu, 20/02/2007, 7 F, Pitești, 8.88
+Stoica Monica, 13/06/2013, 1 B, Baia Mare, 9.46
+Mihai Victor, 11/04/2010, 5 E, Suceava, 9.34
+Barbu Ionela, 28/08/2008, 6 A, Buzău, 9.20
+Petrescu Ana, 19/07/2007, 8 D, Drobeta-Turnu Severin, 8.75
+Moldovan Daniel, 02/03/2006, 10 C, Satu Mare, 9.05
+Constantin Daria, 23/11/2012, 1 E, Deva, 9.11
+Pop Florin, 06/10/2005, 11 B, Hunedoara, 8.98
+Rusu Ramona, 12/01/2009, 4 A, Târgoviște, 9.28
+Luca Emilia, 07/04/2004, 12 F, Botoșani, 8.53
+Grigore Ștefan, 29/09/2013, 1 C, Tulcea, 9.17
+Iordache Mara, 16/05/2011, 2 D, Focșani, 9.39
+Simion Vlad, 04/07/2008, 6 E, Alba Iulia, 8.92
+Enache Alexia, 17/03/2007, 8 F, Râmnicu Vâlcea, 9.07
+Ciobanu Claudiu, 01/08/2010, 5 A, Giurgiu, 9.23
+Nistor Larisa, 21/02/2009, 4 B, Reșița, 8.77
+Dobre Alin, 09/06/2013, 1 F, Slatina, 9.31
+Oprea Denisa, 14/11/2006, 9 D, Călărași, 8.85
+Lungu Marius, 26/05/2005, 11 E, Piatra Neamț, 9.02
+David Claudia, 31/12/2008, 6 C, Zalău, 9.26
+Sandu Andreea, 22/04/2007, 8 B, Bistrița, 8.83
+Iacob Răzvan, 10/10/2009, 3 E, Sfântu Gheorghe, 9.38
+Neagu Daniela, 18/08/2012, 1 D, Alexandria, 9.14
+Zaharia Ioan, 05/07/2004, 12 A, Mediaș, 8.78
+Dima Sorin, 08/01/2013, 1 E, Făgăraș, 9.44
+Vasile Mirela, 27/05/2008, 6 D, Roman, 9.19
+Cristea Raluca, 19/03/2006, 10 F, Fălticeni, 8.81
+Diana Bogdan, 30/09/2011, 2 B, Târgu Jiu, 9.12
+Fodor Nicoleta, 13/06/2005, 11 C, Târgu Mureș, 9.30
+Munteanu Teodora, 25/02/2010, 5 F, Bârlad, 8.65
+Sălăgean Adrian, 17/08/2007, 8 E, Turnu Măgurele, 9.03
+Rizea Simona, 03/11/2009, 4 C, Slobozia, 9.22
+Vlad Cătălin, 29/04/2012, 1 F, Caracal, 8.99
+Stanciu Anamaria, 12/07/2004, 12 D, Sighetu Marmației, 9.37
+Horia Cristina, 06/05/2006, 10 A, Sighișoara, 8.86
+Badea Andra, 28/09/2013, 1 A, Pașcani, 9.10
+Baciu Claudiu, 16/12/2008, 6 F, Petroșani, 9.36
+Drăgan Adelina, 04/02/2007, 7 B, Tecuci, 9.25
+Cîmpeanu Narcis, 21/06/2011, 2 F, Blaj, 8.79
+Toma Mariana, 01/10/2010, 5 C, Vulcan, 9.32
+Moroșanu Anca, 11/04/2009, 4 D, Rădăuți, 9.08
+Călin Sorin, 07/03/2005, 11 A, Lupeni, 8.96
+Vântu Ramona, 20/07/2008, 6 E, Turda, 9.29
+Antonescu Darius, 23/01/2012, 1 C, Câmpina, 8.73
+Șerban Miruna, 15/09/2006, 9 F, Târgu Neamț, 9.00
+Aldea Gabriel, 13/02/2013, 1 B, Motru, 9.45
+Manolache Livia, 09/10/2004, 12 C, Miercurea Ciuc, 9.16
+Ganea Cristina, 19/06/2009, 4 E, Urziceni, 9.13
+Teodorescu Sebastian, 26/08/2011, 2 A, Zărnești, 8.84
+Necula Sorina, 31/05/2012, 1 E, Popești-Leordeni, 9.40
+Voinescu Bogdan, 03/07/2007, 8 D, Pantelimon, 3.18
+Pașcu Claudiu, 22/09/2005, 11 F, Codlea, 8.80
+Gherasim Ilinca, 14/03/2010, 5 B, Curtea de Argeș, 9.11
+Ștefănescu Ionuț, 27/12/2013, 1 F, Fieni, 9.06
+Șușman Andreea, 08/11/2008, 6 A, Horezu, 9.20
+Pavel Raluca, 10/02/2007, 7 E, Otopeni, 8.75
+Buzatu Marian, 17/08/2009, 3 D, Cernavodă, 9.43
+Dogaru Adrian, 06/04/2006, 10 B, Mizil, 9.24
+Ion Ilie, 30/09/2005, 11 D, Câmpulung Moldovenesc, 4.64
+Bucur Lavinia, 02/01/2012, 1 A, Abrud, 9.14
+Moise Liviu, 12/05/2004, 12 E, Făurei, 9.31
+Rădulescu Adela, 21/03/2013, 1 D, Comănești, 8.87
+Covaci Dragoș, 04/07/2010, 5 E, Beiuș, 9.26
+Olteanu Cezar, 16/10/2007, 8 C, Târnăveni, 8.78
+Sorescu Bogdan, 05/02/2011, 2 F, Urlați, 9.10
+Nica Irina, 26/06/2009, 4 F, Salonta, 9.12
+Bălan Mihaela, 07/09/2006, 9 A, Vatra Dornei, 9.05
+Savu Robert, 29/11/2012, 1 B, Cisnădie, 8.82
+Panait Tudor, 18/08/2010, 5 D, Boldești-Scăeni, 9.19
+Mihalache Loredana, 11/12/2008, 6 C, Buhuși, 9.42
+Mazilu Andrei, 08/01/2005, 11 B, Fălticeni, 9.09
+Păun Gabriela, 03/05/2013, 1 E, Vișeu de Sus, 8.76
+Florea Marian, 15/07/2007, 8 F, Băicoi, 9.04
+Tătaru Antonia, 28/03/2010, 5 A, Gherla, 8.81
+Sima Alina, 02/06/2009, 4 C, Segarcea, 9.28
+Predescu Radu, 14/09/2006, 9 E, Vicovu de Sus, 3.89
+Costache Vasile, 19/12/2011, 2 D, Calafat, 9.35
+Lăzărescu Nicoleta, 30/11/2013, 1 F, Drăgășani, 9.01
+Borcea Florin, 23/08/2008, 6 D, Borșa, 8.90
+Voicu Daniela, 20/04/2007, 7 C, Năvodari, 9.29
+Pintilie Dorian, 27/10/2004, 12 B, Oltenița, 9.08
+Gorun Teodora, 09/02/2012, 1 C, Vulcan, 9.32
+Boboc Alexandru, 17/06/2009, 4 B, Voluntari, 9.22
+Lupu Elena, 13/03/2011, 2 E, Medgidia, 8.91
+Pop Mihai, 06/07/2006, 9 D, Vălenii de Munte, 9.37
+Ionete Marius, 25/11/2005, 11 A, Balș, 8.74
+Fănică Irina, 30/12/2010, 5 F, Pucioasa, 9.16
+Neacșu Alin, 08/09/2007, 8 A, Băilești, 8.80
+Moldoveanu Ioana, 12/10/2012, 1 B, Hârșova, 9.11
+Ciolacu Dragoș, 03/01/2008, 6 E, Găești, 9.41
+Pricope Alina, 16/04/2005, 11 C, Lipova, 9.00
+Chirica Daria, 22/08/2013, 1 A, Cugir, 8.65

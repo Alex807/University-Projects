@@ -1,0 +1,10 @@
+Ionescu Maria, 12/03/2007, 8 C, București, 8.94
+Stani Andrei, 25/07/2008, 8 C, Cluj-Napoca, 9.21
+Anghela Ioana, 14/10/2009, 8 F, Timișoara, 8.61
+Iliescu Mihai, 01/01/2006, 8 C, Iași, 9.13
+Marin Alina, 30/04/2011, 8 C, Constanța, 9.48
+Preda Vlad, 09/02/2005, 8 F, Craiova, 8.72
+Gheorghiu Sorina, 22/06/2012, 12 A, Brașov, 9.15
+Stan Lucian, 05/09/2007, 8 C, Galați, 8.68
+Radu Elena, 18/12/2006, 8 F, Oradea, 9.09
+Anghel Cristina, 10/11/2005, 8 F, Ploiești, 8.82

@@ -1,1 +1,1 @@
-java -cp .\bin;.\lib\report.jar alex.Main
+java -cp .\bin; alex.Main

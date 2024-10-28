@@ -2,4 +2,4 @@ rd /s /q .\bin
 
 mkdir .\bin
 
-javac -d .\bin -cp .\lib\report.jar .\src\alex\Main.java  .\src\report\Person.java
+javac -d .\bin .\src\alex\Main.java .\src\test\Person.java 

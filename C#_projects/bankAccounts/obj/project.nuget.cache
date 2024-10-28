@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ae/U1hYbRko=",
+  "success": true,
+  "projectFilePath": "E:\\CFLP\\lab2\\bankAccounts\\bankAccounts.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cristi.DESKTOP-GANC7RP\\.nuget\\packages\\xunit\\2.9.2\\xunit.2.9.2.nupkg.sha512",
+    "C:\\Users\\cristi.DESKTOP-GANC7RP\\.nuget\\packages\\xunit.abstractions\\2.0.3\\xunit.abstractions.2.0.3.nupkg.sha512",
+    "C:\\Users\\cristi.DESKTOP-GANC7RP\\.nuget\\packages\\xunit.analyzers\\1.16.0\\xunit.analyzers.1.16.0.nupkg.sha512",
+    "C:\\Users\\cristi.DESKTOP-GANC7RP\\.nuget\\packages\\xunit.assert\\2.9.2\\xunit.assert.2.9.2.nupkg.sha512",
+    "C:\\Users\\cristi.DESKTOP-GANC7RP\\.nuget\\packages\\xunit.core\\2.9.2\\xunit.core.2.9.2.nupkg.sha512",
+    "C:\\Users\\cristi.DESKTOP-GANC7RP\\.nuget\\packages\\xunit.extensibility.core\\2.9.2\\xunit.extensibility.core.2.9.2.nupkg.sha512",
+    "C:\\Users\\cristi.DESKTOP-GANC7RP\\.nuget\\packages\\xunit.extensibility.execution\\2.9.2\\xunit.extensibility.execution.2.9.2.nupkg.sha512",
+    "C:\\Users\\cristi.DESKTOP-GANC7RP\\.nuget\\packages\\xunit.runner.visualstudio\\3.0.0-pre.20\\xunit.runner.visualstudio.3.0.0-pre.20.nupkg.sha512"
+  ],
+  "logs": []
+}
