@@ -1,0 +1,14 @@
+E:\CFLP\Proiect\MetalConstruction\bin\Debug\net8.0\MetalConstruction.exe
+E:\CFLP\Proiect\MetalConstruction\bin\Debug\net8.0\MetalConstruction.deps.json
+E:\CFLP\Proiect\MetalConstruction\bin\Debug\net8.0\MetalConstruction.runtimeconfig.json
+E:\CFLP\Proiect\MetalConstruction\bin\Debug\net8.0\MetalConstruction.dll
+E:\CFLP\Proiect\MetalConstruction\bin\Debug\net8.0\MetalConstruction.pdb
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\MetalConstruction.GeneratedMSBuildEditorConfig.editorconfig
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\MetalConstruction.AssemblyInfoInputs.cache
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\MetalConstruction.AssemblyInfo.cs
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\MetalConstruction.csproj.CoreCompileInputs.cache
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\MetalConstruction.dll
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\refint\MetalConstruction.dll
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\MetalConstruction.pdb
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\MetalConstruction.genruntimeconfig.cache
+E:\CFLP\Proiect\MetalConstruction\obj\Debug\net8.0\ref\MetalConstruction.dll
