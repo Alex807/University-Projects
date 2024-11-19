@@ -1,0 +1,30 @@
+# add all Verilog source files, separated by spaces
+set sourcefiles {reg_a.v reg_s.v reg_m.v reg_q.v control_unit.v nonRD.v subtract.v multiply_BRadix4.v exor.v counter.v fac.v parallel_adder.v}
+
+# set names of the top modules for each test bench
+set topmodules {parallel_adder_tb subtract_tb multiply_BRadix4_tb nonRD_tb }
+
+###################################################
+#####DO NOT MODIFY THE SCRIPT BELOW THIS LINE#####
+###################################################
+
+# quit current simulation if any
+quit -sim
+
+# empty the work library if present
+if {[file exists "work"]} {vdel -all}
+#create a new work library
+vlib work
+
+# run the compiler
+if {[catch {eval vlog $sourcefiles}]} {
+    puts "correct the compilation errors"
+    return
+}
+
+# create instances for each top module
+foreach topmodule $topmodules {
+    vsim -voptargs=+acc $topmodule  
+	add wave *
+	run -all
+}
