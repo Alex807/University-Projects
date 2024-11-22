@@ -9,11 +9,11 @@ int main() {
     generate_matrix("Generating matrix B ...", B); 
 
 
-    // validate_result_with_groundtruth_V1_serial(); 
+    validate_result_with_groundtruth_V1_serial(); 
 
     find_best_serial_parallel_time();
 
-    // find_best_block_size();
+    find_best_block_size();
 
     free_matrices();
     return 0;  
