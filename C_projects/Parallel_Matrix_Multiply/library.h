@@ -1,23 +1,23 @@
 #ifndef __LIBRARY_H
 #define __LIBRARY_H 
 
-#define MATRIX_SIZE 503
+#define MATRIX_SIZE 2000
 
 #define BLOCK_SIZE 32
 void block_matrix_multiplication_serial(int block_size); 
 void block_matrix_multiplication_parallel(int block_size); 
 
-extern double **A; //use 'extern' to ONLY declare the variables in the header file, to can access them in other files
-extern double **B; // but not create them here, because of multimple definitions in the soruce files
-extern double **serial_result;
-extern double **parallel_result; 
+extern double *A; //use 'extern' to ONLY declare the variables in the header file, to can access them in other files
+extern double *B; // but not create them here, because of multimple definitions in the soruce files
+extern double *serial_result;
+extern double *parallel_result; 
 
 void create_all_matrices(); //used dinamically allocation to have more memory available for bigger matrices
 void free_matrices();
 
 
-#define NUMBER_OF_THREADS 8
-#define CHUNK_SIZE 20 
+#define NUMBER_OF_THREADS 12
+#define CHUNK_SIZE 32 
 
 #include "auxiliarLibrary.h" // include the auxiliar library only AFTER defining common constants 
                             // to avoid possible compilation errors
