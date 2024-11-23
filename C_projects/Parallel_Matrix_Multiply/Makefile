@@ -4,13 +4,13 @@ executable: implementation.o auxiliarFunctions.o Main.o
 	make clean
 
 implementation.o: implementation.c library.h auxiliarLibrary.h
-	gcc -c implementation.c 
+	gcc -c implementation.c -fopenmp 
 
 auxiliarFunctions.o: auxiliarFunctions.c auxiliarLibrary.h
-	gcc -c auxiliarFunctions.c
+	gcc -c auxiliarFunctions.c -fopenmp -lm
 
 Main.o: Main.c
 	gcc -c Main.c 
 
 clean: 
-	rm *.o executable
+	rm -f *.o executable

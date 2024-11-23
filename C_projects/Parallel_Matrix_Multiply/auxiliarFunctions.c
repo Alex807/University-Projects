@@ -4,12 +4,14 @@
 #include <math.h>
 #include <time.h> 
 #include <omp.h>
+
 #include "library.h"
 
 void generate_matrix(char *prompt, double* matrix) {
     srand(time(NULL));
     printf("%s\n", prompt); 
-    int size = MATRIX_SIZE; //use to write less into indexing a matrix element
+
+    int size = MATRIX_SIZE;
     for (int i = 0; i < MATRIX_SIZE; i++) { 
         for (int j = 0; j < MATRIX_SIZE; j++) { 
             matrix[i + size + j] = rand();
@@ -38,8 +40,8 @@ void copy_matrix_data (double* source, double* destination) {
     }
 }
 
-void print_matrix(double* matrix, char* matrix_simbol) { 
-    int size = MATRIX_SIZE; 
+void print_matrix(double* matrix, char* matrix_simbol) {  
+    int size = MATRIX_SIZE;
     for(int i = 0; i < MATRIX_SIZE; i++)
     { 
         for(int j = 0; j < MATRIX_SIZE; j++)
@@ -67,29 +69,6 @@ void print_matrix(double* matrix, char* matrix_simbol) {
         printf("\n");
     }
     printf("\n\n");
-}
-
-void initialize_matrix_serial_with_value(double* serial_result, int value) { 
-    int size = MATRIX_SIZE;
-    for (int i = 0; i < MATRIX_SIZE; i++) { 
-        for (int j = 0; j < MATRIX_SIZE; j++) { 
-            serial_result[i * size + j] = value;
-        }
-    }
-}
-
-void initialize_matrix_parallel_with_value(double* parallel_result, int value) { 
-    int i, j; 
-    int size = MATRIX_SIZE;
-    #pragma omp parallel num_threads(NUMBER_OF_THREADS), default(none), private(i, j), shared(parallel_result) 
-    {
-#pragma omp for schedule(static, CHUNK_SIZE) collapse(2)
-    for (int i = 0; i < MATRIX_SIZE; i++) { 
-        for (int j = 0; j < MATRIX_SIZE; j++) { 
-            parallel_result[i * size + j] = value; 
-        } 
-    } 
-    }
 }
 
 double* create_matrix() { 
@@ -237,7 +216,7 @@ void print_measurement_info (char* prompt, double executionTime, double ground_t
 }
 
 void find_best_serial_parallel_time () { 
-    printf ("Determining the best serial/parellel version.\n");
+    printf ("\nDetermining the best serial/parellel version.\n");
 
     char *serial_versions[] = {"i_j_k_serial", "i_k_j_serial", "j_i_k_serial", "j_k_i_serial", "k_i_j_serial", "k_j_i_serial"}; 
     char *parallel_versions[] = {"i_j_k_parallel", "i_k_j_parallel", "j_i_k_parallel", "j_k_i_parallel", "k_i_j_parallel", "k_j_i_parallel"}; 
@@ -299,7 +278,7 @@ double measure_blockMultiply_executionTime(void (*block_function)(), int arg) {
 }
 
 int find_best_block_size () { 
-    printf("Determining the best block size for block matrix multiplication.\n");
+    printf("\nDetermining the best block size for block matrix multiplication.\n");
     int current_block_size = 4; //search for the best block size, starting from 4 and double it until reaching the matrix size 
     int total_possibilities = (int)(log2((double)MATRIX_SIZE / 4)) + 1; //use a formula to calculate the number of entrys in the array
    
@@ -307,7 +286,7 @@ int find_best_block_size () {
     double block_multiply_parallel_results[total_possibilities]; 
     int index = 0;
     for (current_block_size = 4; current_block_size <= MATRIX_SIZE; current_block_size *= 2) {  
-        printf ("Running implementations for block_size = %d ... \n", current_block_size);
+        printf ("Running serial/parallel for block_size = %d ... \n", current_block_size);
         block_multiply_serial_results[index] = measure_blockMultiply_executionTime(block_matrix_multiplication_serial, current_block_size);  
         block_multiply_parallel_results[index] = measure_blockMultiply_executionTime(block_matrix_multiplication_parallel, current_block_size);
 
@@ -317,7 +296,7 @@ int find_best_block_size () {
     int index_serial = find_index_of_min_value(block_multiply_serial_results, index); 
     int index_parallel = find_index_of_min_value(block_multiply_parallel_results, index); 
 
-    printf("Conclusions: \n"); 
+    printf("\nConclusions: \n"); 
     int ideal_block_size_serial = (int)pow(2, index_serial + 2); 
     if (index_serial != index_parallel) {  
 
