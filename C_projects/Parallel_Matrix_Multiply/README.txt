@@ -18,6 +18,6 @@ Additional reading: Anatomy of High-Performance Many-Threaded Matrix Multiplicat
 
 For all algorithms, work with square matrixes N*N, where size N varies between 1000 and 3000. 
 
-The matrix values can be generated randomly.
+The matrix values can be generated randomly. 
 
 For each algorithm version, validate its result by implementing an automatic comparison with the result produced by the classical i-j-k algorithm version.
