@@ -40,18 +40,36 @@ For each word, the application provides:
 - **Local caching** to improve performance and save free tokens for the AI model
 
 ## 🚀 Usage
-# Compile: javac RunApp.java  
+### Compile: javac RunApp.java  
 Make sure you compile all components. 
 
-# Execute: java RunApp
-You don't need to run separated files for CLI/GUI, both are integrated into 'RunApp' entry point.
-Launch and select "yes"/"y" for GUI version, otherwise you will go for CLI version.
+### Execute: java RunApp
+- **You don't need to run separated files for CLI/GUI, both are integrated into 'RunApp' entry point.
+- Launch and select "yes"/"y" for GUI version, otherwise you will go for CLI version.
+
+
+## 📁 File Structure
+
+/
+- ├── src/
+- │   ├── RunApp.java
+- │   ├── GUI.java- 
+- │   ├── components/
+- │   │   ├── OnlineDictionary.java
+- │   │   ├── Translator.java
+- │   │   ├── AIComponent.java
+- │   │   ├── DataBaseManager.java
+- │   │   ├── JSON_Parser.java
+- │   │   └── LanguageCodeFinder.java
+- ├── resources/
+- │   ├── DataBase.txt
+- │   └── LanguageCodes.txt
 
 
 ## 🔑 API Keys and External Services
-Dictionary API - No key required
-MyMemory Translation API - No key required for limited usage
-Cohere AI API - free trial key with limitated tokens
+- Dictionary API - No key required
+- MyMemory Translation API - No key required for limited usage
+- Cohere AI API - free trial key with limitated tokens
 
 ## ⚠️ Error Handling
 The application handles errors for cases:  
@@ -60,6 +78,6 @@ The application handles errors for cases:
 - file access issues
 
 ## 📦 Dependencies
-Java 11 or higher
-Internet connection
-Swing library for GUI(included in standard Java)
+- Java 11 or higher
+- Internet connection
+- Swing library for GUI(included in standard Java)
