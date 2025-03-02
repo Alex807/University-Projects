@@ -48,23 +48,6 @@ You don't need to run separated files for CLI/GUI, both are integrated into 'Run
 Launch and select "yes"/"y" for GUI version, otherwise you will go for CLI version.
 
 
-📁 File Structure
-
-├── src/
-│   ├── RunApp.java
-│   ├── GUI.java
-│   ├── components/
-│   │   ├── OnlineDictionary.java
-│   │   ├── Translator.java
-│   │   ├── AIComponent.java
-│   │   ├── DataBaseManager.java
-│   │   ├── JSON_Parser.java
-│   │   └── LanguageCodeFinder.java
-├── resources/
-│   ├── DataBase.txt
-│   └── LanguageCodes.txt
-
-
 🔑 API Keys and External Services
 Dictionary API - No key required
 MyMemory Translation API - No key required for limited usage
