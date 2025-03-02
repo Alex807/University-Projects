@@ -16,3 +16,49 @@ Example: The cat chased the mouse under the table
 Synonyms: pet, feline, puss
 Antonyms: dog, canine, adversary
 
+box
+Definition: Senses relating to a three-dimensional object or space.
+Example: thinking outside the box
+Synonyms: think creatively, be innovative, explore possibilities
+Antonyms: follow rules, stay conventional, limit options
+
+court
+Definition: An enclosed space; a courtyard; an uncovered area shut in by the walls of a building, or by different buildings; also, a space opening from a street and nearly surrounded by houses; a blind alley.
+Example: Royal court
+Synonyms: tribunal, bench, judiciary
+Antonyms: corruption, bribery, injustice, partiality
+court
+Definition: An enclosed space; a courtyard; an uncovered area shut in by the walls of a building, or by different buildings; also, a space opening from a street and nearly surrounded by houses; a blind alley.
+Example: A day in court
+Synonyms: tribunal, bench, judiciary
+Antonyms: dismissal, acquittal, exoneration
+
+court
+Definition: An enclosed space; a courtyard; an uncovered area shut in by the walls of a building, or by different buildings; also, a space opening from a street and nearly surrounded by houses; a blind alley.
+Example: The tennis court was empty and silent
+Synonyms: tribunal, forum, judiciary
+Antonyms: ignorance, disinterest, silence
+court
+Definition: An enclosed space; a courtyard; an uncovered area shut in by the walls of a building, or by different buildings; also, a space opening from a street and nearly surrounded by houses; a blind alley.
+Example: The court was adjourned for the day
+Synonyms: tribunal, forum, bench
+Antonyms: injustice, unfairness, bias
+
+court
+Definition: An enclosed space; a courtyard; an uncovered area shut in by the walls of a building, or by different buildings; also, a space opening from a street and nearly surrounded by houses; a blind alley.
+Example: A royal court was held at the palace
+Synonyms: tribunal, forum, chamber
+Antonyms: disorder, chaos, anarchy
+
+court
+Definition: An enclosed space; a courtyard; an uncovered area shut in by the walls of a building, or by different buildings; also, a space opening from a street and nearly surrounded by houses; a blind alley.
+Example: The court's decision was final.
+Synonyms: tribunal, bench, judiciary
+Antonyms: injustice, bias, partiality
+
+court
+Definition: An enclosed space; a courtyard; an uncovered area shut in by the walls of a building, or by different buildings; also, a space opening from a street and nearly surrounded by houses; a blind alley.
+Example: The monarch rules the court with an iron fist.
+Synonyms: judiciary, tribunal, bench
+Antonyms: lawlessness, anarchy, chaos
+

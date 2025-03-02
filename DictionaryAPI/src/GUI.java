@@ -39,7 +39,7 @@ public class GUI extends JFrame {
     public GUI() {
         // Set up the frame
         setTitle("Online Dictionary API");
-        setSize(550, 400); // adjusted size to match image
+        setSize(570, 410); // adjusted size to match image
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
@@ -387,7 +387,7 @@ public class GUI extends JFrame {
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
         
         resultDialog.add(contentPanel);
-        resultDialog.setSize(400, 300);
+        resultDialog.setSize(500, 320);
         resultDialog.setLocationRelativeTo(this);
         
         okButton.addActionListener(e -> resultDialog.dispose());

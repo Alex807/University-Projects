@@ -3,7 +3,7 @@ package components;
 import java.net.http.*;
 import java.util.*; 
 import java.io.*;
-import java.net.URI;
+import java.net.URI; 
 
 public class OnlineDictionary {
     private String DICTIONARY_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/"; // we use a free API for dictionary, to get definitions in English
@@ -41,7 +41,7 @@ public class OnlineDictionary {
 
         } catch (Exception exception) { //use a large exception type to catch all possible exceptions because we treat them the same way
             exception.printStackTrace();
-            return "An exception occurred in 'getDefinitionAndExample' method with message: " + exception.getMessage();
+            return "An exception occurred in 'getWordDefinition' method with message: " + exception.getMessage();
         }
     }
 
@@ -63,6 +63,9 @@ public class OnlineDictionary {
        
         } else if (wordInEnglish.contains("INVALID")) { 
             return wordInEnglish; // if the word OR language are invalid, we return the error message provided by the translator
+        
+        } else if (!wordInEnglish.matches("[a-zA-Z]+")) { // if the word is a sentence, we take only the first word
+            wordInEnglish = wordInEnglish.replaceAll("^(\\p{L}+).*", "$1");
         }
 
         String dictionaryData = getWordDefinition(wordInEnglish); // if the word was not searched before, we get the definition from the Dictionary API

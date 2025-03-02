@@ -71,7 +71,7 @@ public class Translator {
         }
     }
 
-    private static boolean isValidWord(String word) {
+    public boolean isValidWord(String word) {
         if (word == null || word.trim().isEmpty()) {
             return false; 
         }
