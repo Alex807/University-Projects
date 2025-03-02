@@ -7,12 +7,11 @@ Some of my projects are not finished yet, still working in free time. Try to lea
 
 💻 Repository Contents
 This repository contains projects in multiple programming languages:
-
-C Projects: Threading and OpenMP synchronization implementations
-C# Projects: Building data management system with CSV export functionality
-Java Projects: Computer networking applications using sockets for communication and simulation
-Assembly Projects: Micro-system design with 8086 processor, memory and interfaces
-Verilog Projects: Hardware design implementations with processor and memory interfaces
+~ C Projects: Threading and OpenMP synchronization implementations
+~ C# Projects: Building data management system with CSV export functionality
+~ Java Projects: Computer networking applications using sockets for communication and simulation
+~ Assembly Projects: Micro-system design with 8086 processor, memory and interfaces
+~ Verilog Projects: Hardware design implementations with processor and memory interfaces
 
 🛠️ Skills Demonstrated
 Low-level programming (Assembly, C)
