@@ -1,0 +1,18 @@
+frog
+Definition: A small tailless amphibian of the order Anura that typically hops.
+Example: The frog's croak echoed across the pond
+Synonyms: toad, newt, polliwog
+Antonyms: giant, mammal, bird
+
+car
+Definition: A wheeled vehicle that moves independently, with at least three wheels, powered mechanically, steered by a driver and mostly for personal transportation.
+Example: car is a vehicle for transport
+Synonyms: automobile, motorcar, auto
+Antonyms: pedestrian, walker, cyclist
+
+cat
+Definition: An animal of the family Felidae:
+Example: The cat chased the mouse under the table
+Synonyms: pet, feline, puss
+Antonyms: dog, canine, adversary
+
