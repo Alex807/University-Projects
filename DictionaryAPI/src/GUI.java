@@ -162,6 +162,7 @@ public class GUI extends JFrame {
                 
                 // Auto-clear fields after showing result
                 clearFields();
+
             }
         });
         

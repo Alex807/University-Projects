@@ -62,3 +62,20 @@ Example: The monarch rules the court with an iron fist.
 Synonyms: judiciary, tribunal, bench
 Antonyms: lawlessness, anarchy, chaos
 
+thank
+Definition: An expression of appreciation; a thought.
+Example: Expressing gratitude is a noble act
+Synonyms: appreciate, acknowledge, recognize
+Antonyms: ignore, disregard, neglect
+
+passed
+Definition: To change place.
+Example: Time passed by so quickly
+Synonyms: elapsed, gone, expired
+Antonyms: stopped, remained, stayed
+
+dissatisfied
+Definition: Feeling or displaying disappointment or a lack of contentment.
+Example: The customer was dissatisfied with the service and demanded a refund.
+Synonyms: discontented, unhappy, displeased
+Antonyms: content, satisfied, pleased
