@@ -2,7 +2,7 @@
 
 ## 📋 Overview
 The Dictionary Application is a Java-based ability that lets users look up words in different languages through both command-line and graphical interfaces.  
-It uses multiple external APIs to provide word definitions, translations, examples, synonyms, and antonyms.
+It uses multiple external APIs to **provide word definitions, translations, examples, synonyms, and antonyms.**
 
 ### External services used:
 - **Dictionary API** (dictionaryapi.dev) for English definitions and word meaning check
@@ -44,13 +44,12 @@ For each word, the application provides:
 Make sure you compile all components. 
 
 ### Execute: java RunApp
-- **You don't need to run separated files for CLI/GUI, both are integrated into 'RunApp' entry point.
+- **You don't need to run separated files for CLI/GUI, both are integrated into 'RunApp' entry point.**
 - Launch and select "yes"/"y" for GUI version, otherwise you will go for CLI version.
 
 
 ## 📁 File Structure
 
-/
 - ├── src/
 - │   ├── RunApp.java
 - │   ├── GUI.java- 
