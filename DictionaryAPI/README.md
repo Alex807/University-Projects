@@ -39,7 +39,7 @@ For each word, the application provides:
 - **MVC-like structure** separating data, logic, and interfaces
 - **Local caching** to improve performance and save free tokens for the AI model
 
-### 🚀 Usage
+# 🚀 Usage
 ### Compile: javac RunApp.java  
 Make sure you compile all components. 
 
@@ -50,18 +50,19 @@ Make sure you compile all components.
 
 ## 📁 File Structure
 
-├── src/< br / >
-│   ├── RunApp.java< br / >
-│   ├── GUI.java- < br / >
-│   ├── components/< br / >
-│   │   ├── OnlineDictionary.java< br / >
-│   │   ├── Translator.java< br / >
-│   │   ├── AIComponent.java< br / >- │   │   ├── DataBaseManager.java< br / >
-│   │   ├── JSON_Parser.java< br / >
-│   │   └── LanguageCodeFinder.java< br / >
-├── resources/< br / >
-│   ├── DataBase.txt< br / >
-│   └── LanguageCodes.txt< br / >
+- ├── src/
+- │   ├── RunApp.java
+- │   ├── GUI.java- 
+- │   ├── components/
+- │   │   ├── OnlineDictionary.java
+- │   │   ├── Translator.java
+- │   │   ├── AIComponent.java
+- │   │   ├── DataBaseManager.java
+- │   │   ├── JSON_Parser.java
+- │   │   └── LanguageCodeFinder.java
+- ├── resources/
+- │   ├── DataBase.txt
+- │   └── LanguageCodes.txt
 
 
 ## 🔑 API Keys and External Services
