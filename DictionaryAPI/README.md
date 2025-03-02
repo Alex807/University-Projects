@@ -39,7 +39,7 @@ For each word, the application provides:
 - **MVC-like structure** separating data, logic, and interfaces
 - **Local caching** to improve performance and save free tokens for the AI model
 
-## 🚀 Usage
+### 🚀 Usage
 ### Compile: javac RunApp.java  
 Make sure you compile all components. 
 
@@ -50,25 +50,24 @@ Make sure you compile all components.
 
 ## 📁 File Structure
 
-- ├── src/
-- │   ├── RunApp.java
-- │   ├── GUI.java- 
-- │   ├── components/
-- │   │   ├── OnlineDictionary.java
-- │   │   ├── Translator.java
-- │   │   ├── AIComponent.java
-- │   │   ├── DataBaseManager.java
-- │   │   ├── JSON_Parser.java
-- │   │   └── LanguageCodeFinder.java
-- ├── resources/
-- │   ├── DataBase.txt
-- │   └── LanguageCodes.txt
+├── src/< br / >
+│   ├── RunApp.java< br / >
+│   ├── GUI.java- < br / >
+│   ├── components/< br / >
+│   │   ├── OnlineDictionary.java< br / >
+│   │   ├── Translator.java< br / >
+│   │   ├── AIComponent.java< br / >- │   │   ├── DataBaseManager.java< br / >
+│   │   ├── JSON_Parser.java< br / >
+│   │   └── LanguageCodeFinder.java< br / >
+├── resources/< br / >
+│   ├── DataBase.txt< br / >
+│   └── LanguageCodes.txt< br / >
 
 
 ## 🔑 API Keys and External Services
-- Dictionary API - No key required
-- MyMemory Translation API - No key required for limited usage
-- Cohere AI API - free trial key with limitated tokens
+- **Dictionary API** - No key required
+- **MyMemory Translation API** - No key required for limited usage
+- **Cohere AI API** - free trial key with limitated tokens
 
 ## ⚠️ Error Handling
 The application handles errors for cases:  
