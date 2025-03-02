@@ -39,11 +39,11 @@ For each word, the application provides:
 - **MVC-like structure** separating data, logic, and interfaces
 - **Local caching** to improve performance and save free tokens for the AI model
 
-# 🚀 Usage
-### Compile: javac RunApp.java  
+## 🚀 Usage
+ ### Compile: javac RunApp.java  
 Make sure you compile all components. 
 
-### Execute: java RunApp
+ ### Execute: java RunApp
 - **You don't need to run separated files for CLI/GUI, both are integrated into 'RunApp' entry point.**
 - Launch and select "yes"/"y" for GUI version, otherwise you will go for CLI version.
 
