@@ -1,9 +1,9 @@
 # 🎓 University-Projects
-- This is a collection of my academic work showcasing various programming languages and technologies I've learned during my studies.
+ This is a collection of my academic work showcasing various programming languages and technologies I've learned during my studies.
 
 ## 👨 About Me
 - I'm a computer science/engineering student passionate about learning new technologies and developing practical skills through hands-on projects. 
-- Some of my projects are not finished yet, still working in free time. Try to learn new skills! ✨ 🧠
+ Some of my projects are not finished yet, still working in free time. Try to learn new skills! ✨ 🧠
 
 ## 💻 Repository Contents
 This repository contains projects in multiple programming languages:
