@@ -1,0 +1,35 @@
+{
+  "bankAccounts" : [ {
+    "owner" : {
+      "name" : "Mihai",
+      "age" : 28
+    },
+    "dateOfCreation" : [ 2024, 4, 15 ],
+    "balance" : 200.00479452054793,
+    "iban" : "12345"
+  }, {
+    "owner" : {
+      "name" : "Alex",
+      "age" : 22
+    },
+    "dateOfCreation" : [ 2025, 4, 10 ],
+    "balance" : 110.05,
+    "iban" : "qwerty"
+  }, {
+    "owner" : {
+      "name" : "mama",
+      "age" : 100
+    },
+    "dateOfCreation" : [ 2025, 4, 17 ],
+    "balance" : 102.0,
+    "iban" : "cvvvv"
+  }, {
+    "owner" : {
+      "name" : "tre",
+      "age" : 34
+    },
+    "dateOfCreation" : [ 2025, 4, 17 ],
+    "balance" : 3.3333333E7,
+    "iban" : "222we"
+  } ]
+}

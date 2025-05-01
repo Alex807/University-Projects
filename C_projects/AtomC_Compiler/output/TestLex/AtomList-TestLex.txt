@@ -1,0 +1,71 @@
+Line 3: TYPE_INT
+Line 3: ID [main]
+Line 3: LPAR
+Line 3: RPAR
+Line 4: LACC
+Line 5: TYPE_INT
+Line 5: ID [i]
+Line 5: SEMICOLON
+Line 6: ID [i]
+Line 6: ASSIGN
+Line 6: INT [0]
+Line 6: SEMICOLON
+Line 7: WHILE
+Line 7: LPAR
+Line 7: ID [i]
+Line 7: LESS
+Line 7: INT [10]
+Line 7: RPAR
+Line 7: LACC
+Line 8: IF
+Line 8: LPAR
+Line 8: ID [i]
+Line 8: DIV
+Line 8: INT [2]
+Line 8: EQUAL
+Line 8: INT [1]
+Line 8: RPAR
+Line 8: ID [puti]
+Line 8: LPAR
+Line 8: ID [i]
+Line 8: RPAR
+Line 8: SEMICOLON
+Line 9: ID [i]
+Line 9: ASSIGN
+Line 9: ID [i]
+Line 9: ADD
+Line 9: INT [1]
+Line 9: SEMICOLON
+Line 10: RACC
+Line 11: IF
+Line 11: LPAR
+Line 11: DOUBLE [4.90]
+Line 11: EQUAL
+Line 11: DOUBLE [4.90]
+Line 11: AND
+Line 11: DOUBLE [4.90]
+Line 11: EQUAL
+Line 11: DOUBLE [2.45]
+Line 11: MUL
+Line 11: DOUBLE [2.00]
+Line 11: RPAR
+Line 11: ID [puts]
+Line 11: LPAR
+Line 11: STRING [yes]
+Line 11: RPAR
+Line 11: SEMICOLON
+Line 12: ID [putc]
+Line 12: LPAR
+Line 12: CHAR [#]
+Line 12: RPAR
+Line 12: SEMICOLON
+Line 13: ID [puts]
+Line 13: LPAR
+Line 13: STRING []
+Line 13: RPAR
+Line 13: SEMICOLON
+Line 14: RETURN
+Line 14: INT [0]
+Line 14: SEMICOLON
+Line 15: RACC
+Line 16: END

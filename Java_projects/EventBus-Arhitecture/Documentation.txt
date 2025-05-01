@@ -1,0 +1,130 @@
+	EVENT-BUS SYSTEM DOCUMENTATION
+
+Site that contains given task: https://staff.cs.upt.ro/~ioana/arhit-engl/curs/t12.html
+
+1. INTRODUCTION
+
+The Event-Bus system is a communication framework that enables different parts of an application to interact without directly knowing about each other. It follows the event-driven architecture pattern, where components can either publish events or subscribe to receive them.
+
+2. SYSTEM OVERVIEW
+
+The system consists of three main parts:
+
+EventBus (Central Hub)
+- Acts as the message center
+- Manages all communications
+- Keeps track of who wants what information
+- Makes sure messages get to the right place
+
+Publishers (Senders)
+- Create and send out events
+- Don't need to know who receives their events
+- Can send different types of information
+- Work independently
+
+Subscribers (Receivers)
+- Sign up for specific types of events
+- Get notified when relevant events happen
+- Can receive multiple types of events
+- Process events as needed
+
+3. MAIN APPLICATIONS
+The system supports two main applications:
+
+Sensor Monitoring System
+    
+    Sensors (Publishers):
+    - Temperature Sensors: measure temperature in different locations
+    - Water Level Sensors: track water levels
+    - Humidity Sensors: monitor air moisture
+    
+    Displays (Subscribers):
+    - Numeric Displays: show current readings
+    - Max Value Displays: track highest readings
+    - Text Displays: show formatted information
+
+News Agency System
+    
+    News Agencies (Publishers):
+    - Can publish different types of news
+    - Send updates in real-time
+    - Cover various topics (sports, politics, culture)
+    
+    Readers (Subscribers):
+    - Choose their topics of interest
+    - Can change preferences anytime
+    - Receive immediate updates
+
+4. HOW IT WORKS
+
+Event Publishing Process:
+1. A sensor takes a reading or news agency writes an article
+2. The information is packaged as an event
+3. The event is sent to the EventBus
+4. EventBus checks who wants this type of information
+5. EventBus delivers the event to interested subscribers
+
+Subscription Process:
+1. A display or reader decides what information they want
+2. They register their interest with the EventBus
+3. EventBus adds them to the list for that type of event
+4. They start receiving relevant events immediately
+
+5. KEY FEATURES
+
+Flexibility:
+- Easy to add new types of events
+- Simple to add or remove subscribers
+- Publishers can be added without changing existing code
+
+Reliability:
+- Events are delivered to all interested subscribers
+- System handles errors gracefully
+- No lost communications
+
+Performance:
+- Quick event delivery
+- Efficient resource usage
+- Handles multiple events simultaneously
+
+6. PRACTICAL EXAMPLES
+
+Sensor Example:
+- Temperature sensor in Timisoara reads 25 degrees
+- Creates temperature event
+- EventBus sends it to all temperature displays
+- Displays show updated temperature
+
+News Example:
+- Sports agency publishes match result
+- Creates sports news event
+- EventBus sends to sports subscribers
+- Readers see the update immediately
+
+7. SETUP AND CONFIGURATION
+
+Basic Setup:
+1. Initialize the EventBus
+2. Register publishers
+3. Set up subscribers
+4. Start event processing
+
+Configuration Options:
+- Event types definition
+- Subscription preferences
+- Display settings
+- Update frequencies
+
+8. TROUBLESHOOTING
+
+Common Issues:
+- Events not being received
+- Slow event processing
+- Subscription errors
+- System overload
+
+Solutions:
+- Verify subscriptions
+- Check event types
+- Monitor system resources
+- Review error logs

@@ -1,0 +1,89 @@
+			DIRECTORY MONITORING AND CONTENT SECURITY ANALYSIS USING SHELL SCRIPT
+This program monitors multiple directories simultaneously, creates snapshots of their contents, and identifies potentially dangerous files based on their permissions and content. It uses parallel processing to handle multiple directories efficiently.
+
+1.  SYSTEM REQUIREMENTS
+POSIX-compliant operating system
+verify_for_malicious.sh script (must be executable)
+Minimum 512MB RAM
+Available disk space for snapshots
+
+2. COMMAND LINE USAGE
+Format:
+./program_exe -o output_directory -s isolation_directory [dir1 dir2 ... dir10]
+
+Required arguments:
+-o : Output directory path
+-s : Isolation directory path
+dir1, dir2, etc.: Directories to monitor (max 10)
+
+Example:
+./program_exe -o /home/user/output -s /home/user/isolated /home/user/dir1 /home/user/dir2
+
+3. PROGRAM FEATURES
+a) Directory Monitoring:
+
+Processes up to 10 directories
+Creates snapshots of contents
+Tracks file metadata (name, size, timestamps)
+b) Security Analysis:
+
+Checks file permissions
+Identifies suspicious files
+Isolates potentially dangerous files
+c) Parallel Processing:
+
+Uses child processes
+Reports process completion status
+Counts unsafe files per directory
+
+4. KEY FUNCTIONS
+- createSnapshot()
+Parameters:
+	mainDirPath: Directory to monitor
+	totalUnsafeFiles: Counter for unsafe files
+	entryName: Name of the entry
+	snapshotDirPath: Path for snapshot storage
+	izolateDirPath: Path for isolation directory
+	depth: Recursion depth limit
+
+- moveFileTo_IsolatedDir()
+	Moves suspicious files to isolation directory
+	Handles duplicate filenames by adding random numbers
+	Updates file permissions appropriately
+
+- checkFilePermissions()
+	Analyzes file permissions for owner, group, and others
+	Returns permissions in rwx format
+
+4. OUTPUT STRUCTURE
+/output_directory/
+|-- Snapshots_Folder/
+|-- dir1_snapshot.txt
+|-- dir2_snapshot.txt
+|-- ...
+
+/isolation_directory/
+|-- suspicious_file1
+|-- suspicious_file2
+|-- ...
+
+5. SNAPSHOT FILE FORMAT
+Snapshot of directory: [directory_path]
+Name: [filename]
+Last Modified: [date time]
+Last Access: [date time]
+Size: [size] KB
+
+6. ERROR MESSAGES
+"Invalid number of arguments!"
+"Output directory path is NOT provided or is NOT valid!"
+"Isolated_space directory path is NOT provided or is NOT valid!"
+"Directory with path: [path] does NOT exist!"
+"Unable to create snapshot file"
+"Fork failed for input path: [path]"
+
+7. LIMITATIONS
+Maximum 10 input directories
+Path length limit: 1024 characters
+One level of directory depth
+Requires execute permissions for shell script

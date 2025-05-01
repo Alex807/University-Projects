@@ -1,0 +1,68 @@
+@startuml
+
+class AverageDisplay{
+ -sum:float
+ -count:int
+ update()
+ display()
+}
+
+
+class MainDriver{
+ main()
+}
+
+
+class NumericDisplay{
+ -value:int
+ update()
+ display()
+}
+
+
+interface Observer{
+ update()
+}
+
+
+interface Subject{
+ notifyObservers()
+ attach()
+ detach()
+}
+
+
+class TemperatureSensor{
+ -observers:java.util.ArrayList<Observer>
+ -tempState:int
+ setTemp()
+ getTemp()
+ notifyObservers()
+ attach()
+ detach()
+}
+
+
+class TextDisplay{
+ -value:int
+ update()
+ display()
+}
+
+
+Observer <|--- AverageDisplay
+
+
+Observer <|--- NumericDisplay
+
+
+Subject <|--- TemperatureSensor
+
+
+
+Observer <|--- TextDisplay
+
+
+
+
+@enduml

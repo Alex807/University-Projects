@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        ".fantomasignore": "ignore",
+        "utils.h": "c",
+        "lexer.h": "c"
+    }
+}

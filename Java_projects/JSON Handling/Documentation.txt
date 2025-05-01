@@ -1,0 +1,95 @@
+	BANK ACCOUNT MANAGEMENT SYSTEM DOCUMENTATION
+
+1. PROJECT OVERVIEW
+A Java-based banking application that manages bank accounts using JSON for data persistence. 
+The system provides functionality for account management, transactions, and customer data handling.
+
+2. TECHNICAL SPECIFICATIONS
+Language: Java
+Build Tool: Maven
+Database: JSON-based storage
+Main JSON File: BankAccountDB.json
+
+3. CORE COMPONENTS
+A. Data Models
+	Person.java
+		Basic user information
+		Personal details management
+	BankAccountDto.java
+		Bank account data transfer object
+		Account information structure
+		Transaction details
+B. Processing Components
+	BankAccountProcessor.java
+		Account operations handling
+		Transaction processing
+		Balance management
+	JsonDataSourceProcessor.java
+		JSON data handling
+		File operations
+		Data persistence
+C. Application Logic
+	BankApplicationLogic.java
+		Core business logic
+		Transaction rules
+		Account validation
+	BankApplication.java
+		Main application entry point
+		User interface handling
+		System initialization
+
+4. DATA STORAGE
+JSON Database Structure (BankAccountDB.json)
+{
+    "accounts": [
+        {
+            "accountId": "string",
+            "balance": number,
+            "owner": {
+                "name": "string",
+                "personalId": "string"
+            },
+            "transactions": [
+                {
+                    "date": "timestamp",
+                    "amount": number,
+                    "type": "DEPOSIT/WITHDRAWAL"
+                }
+            ]
+        }
+    ]
+}
+
+5. SYSTEM FEATURES
+Account Management:
+Create new accounts
+Update account information
+Delete accounts
+View account details
+Transaction Operations:
+Deposit funds
+Withdraw funds
+Check balance
+View transaction history
+Data Persistence:
+JSON-based storage
+Automatic data saving
+Data recovery capabilities
+
+6. ERROR HANDLING
+The system includes comprehensive error handling for:
+- Invalid transactions
+- Account not found
+- Insufficient funds
+- File I/O errors
+- Data validation failures
+
+7. SECURITY CONSIDERATIONS
+Data Protection:
+	JSON file access control
+	Transaction validation
+	Input sanitization
+	Account Security:
+	Personal ID verification
+	Transaction authorization
+	Balance protection

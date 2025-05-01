@@ -1,0 +1,103 @@
+
+=======================================================================
+                    REFLECTION PATTERN DOCUMENTATION
+                    (Bonus Points Implementation)
+=======================================================================
+
+Site to given task: https://staff.cs.upt.ro/~ioana/arhit-engl/curs/t2a1.html
+
+1. INTRODUCTION
+---------------
+This documentation describes the implementation of a Reverse Engineering Tool 
+using the Reflection Pattern. This implementation is part of the bonus points 
+assignment for Design and Architecture of Complex Software Systems (DACSS).
+
+2. CORE CONCEPTS
+---------------
+2.1 Reflection Pattern Overview
+- Reflection is a powerful feature that allows programs to examine and modify 
+  their structure and behavior at runtime
+- The implementation uses introspection capabilities to analyze compiled code
+- Supports Java (*.jar)
+
+2.2 Key Features
+- Extracts class diagram information from compiled code
+- Supports multiple output formats (yUML, PlantUML)
+- Configurable output options
+- Extensible design for adding new output formats
+- Relationship detection (extends, implements, association, dependency)
+
+3. IMPLEMENTATION DETAILS
+------------------------
+3.1 Core Components
+
+a) ClassAnalyzer
+   - Responsible for loading and analyzing compiled classes
+   - Uses URLClassLoader for JAR files
+   - Implements introspection to gather class metadata
+   - Extracts: methods, fields, relationships
+
+b) RelationshipDetector
+   - Identifies four types of relationships:
+     * Extends (inheritance)
+     * Implements (interface implementation)
+     * Association (class references)
+     * Dependency (method parameters, local variables)
+   - Handles parametrized types
+   - Excludes cardinality information for associations
+
+c) DiagramFormatter
+   - Abstract base class for output formatting
+   - Concrete implementations:
+     * YUMLFormatter
+     * PlantUMLFormatter
+   - Strategy pattern for easy format extension
+
+3.2 Configuration Options
+------------------------
+The tool supports the following configuration flags:
+- ignore_classes: List of class patterns to exclude (e.g., "java.lang.*")
+- use_qualified_names: Boolean for full class name display
+- show_methods: Boolean to include/exclude method information
+- show_attributes: Boolean to include/exclude class attributes
+
+4. OUTPUT FORMATS
+----------------
+4.1 YUML Format
+- Generates compatible output for yUML online tool
+- Syntax example:
+  [ClassA]->[ClassB]
+  [ClassA|+fieldA:int|+methodA()]
+
+4.2 PlantUML Format
+- Generates compatible output for PlantUML
+- Supports standard UML notation
+- Example:
+  class ClassA {
+    +fieldA: int
+    +methodA()
+  }
+  ClassA --> ClassB
+
+5. DESIGN PATTERNS USED
+-----------------------
+5.1 Strategy Pattern
+- Used for output formatting
+- Allows easy addition of new output formats
+- Minimal code changes required for extensions
+
+5.2 Factory Pattern
+- Creates appropriate formatters based on output type
+- Encapsulates formatter creation logic
+
+5.3 Visitor Pattern
+- Used for traversing class structures
+- Separates algorithms from object structure
+
+6. LIMITATIONS
+-------------
+- Cannot detect aggregation/composition relationships(both treated as association)
+- Association cardinality information not available
+- Limited to static code analysis
+- Dynamic relationships not detected
+

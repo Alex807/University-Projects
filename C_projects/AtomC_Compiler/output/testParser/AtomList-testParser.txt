@@ -1,0 +1,136 @@
+Line 1: STRUCT
+Line 1: ID [Pt]
+Line 1: LACC
+Line 2: TYPE_INT
+Line 2: ID [x]
+Line 2: SEMICOLON
+Line 3: TYPE_INT
+Line 3: ID [y]
+Line 3: SEMICOLON
+Line 4: RACC
+Line 4: SEMICOLON
+Line 5: STRUCT
+Line 5: ID [Pt]
+Line 5: ID [points]
+Line 5: LBRACKET
+Line 5: INT [10]
+Line 5: RBRACKET
+Line 5: SEMICOLON
+Line 7: VOID
+Line 7: ID [max]
+Line 7: LPAR
+Line 7: TYPE_DOUBLE
+Line 7: ID [a]
+Line 7: COMMA
+Line 7: ID [b]
+Line 7: RPAR
+Line 7: LACC
+Line 8: IF
+Line 8: LPAR
+Line 8: ID [a]
+Line 8: GREATER
+Line 8: ID [b]
+Line 8: RPAR
+Line 8: RETURN
+Line 8: ID [a]
+Line 8: SEMICOLON
+Line 9: ELSE
+Line 9: RETURN
+Line 9: ID [b]
+Line 9: SEMICOLON
+Line 11: RACC
+Line 13: TYPE_INT
+Line 13: ID [min]
+Line 13: LPAR
+Line 13: TYPE_INT
+Line 13: ID [a]
+Line 13: COMMA
+Line 13: TYPE_INT
+Line 13: ID [b]
+Line 13: RPAR
+Line 13: LACC
+Line 14: IF
+Line 14: LPAR
+Line 14: ID [a]
+Line 14: LESS
+Line 14: ID [b]
+Line 14: RPAR
+Line 14: RETURN
+Line 14: ID [a]
+Line 14: SEMICOLON
+Line 15: ELSE
+Line 15: RETURN
+Line 15: ID [b]
+Line 15: SEMICOLON
+Line 16: RACC
+Line 18: TYPE_INT
+Line 18: ID [len]
+Line 18: LPAR
+Line 18: TYPE_CHAR
+Line 18: ID [s]
+Line 18: LBRACKET
+Line 18: RBRACKET
+Line 18: RPAR
+Line 18: LACC
+Line 19: TYPE_INT
+Line 19: ID [i]
+Line 19: SEMICOLON
+Line 20: ID [i]
+Line 20: ASSIGN
+Line 20: INT [0]
+Line 20: SEMICOLON
+Line 21: WHILE
+Line 21: LPAR
+Line 21: ID [s]
+Line 21: LBRACKET
+Line 21: ID [i]
+Line 21: RBRACKET
+Line 21: RPAR
+Line 21: ID [i]
+Line 21: ASSIGN
+Line 21: ID [i]
+Line 21: ADD
+Line 21: INT [1]
+Line 21: SEMICOLON
+Line 22: RETURN
+Line 22: ID [i]
+Line 22: SEMICOLON
+Line 23: RACC
+Line 25: VOID
+Line 25: ID [main]
+Line 25: LPAR
+Line 25: RPAR
+Line 25: LACC
+Line 26: TYPE_INT
+Line 26: ID [i]
+Line 26: SEMICOLON
+Line 27: ID [i]
+Line 27: ASSIGN
+Line 27: INT [10]
+Line 27: SEMICOLON
+Line 28: WHILE
+Line 28: LPAR
+Line 28: ID [i]
+Line 28: NOTEQ
+Line 28: INT [0]
+Line 28: RPAR
+Line 28: LACC
+Line 29: ID [i]
+Line 29: ASSIGN
+Line 29: ID [i]
+Line 29: DIV
+Line 29: INT [2]
+Line 29: SEMICOLON
+Line 30: RACC
+Line 31: RACC
+Line 32: TYPE_INT
+Line 32: ID [tren]
+Line 32: ASSIGN
+Line 32: DOUBLE [12.20]
+Line 32: SEMICOLON
+Line 33: TYPE_DOUBLE
+Line 33: ID [dev]
+Line 33: ASSIGN
+Line 33: DOUBLE [0.20]
+Line 33: SEMICOLON
+Line 34: END

@@ -1,0 +1,74 @@
+LEXICAL ANALYZER - USAGE GUIDE
+
+OVERVIEW
+========
+The Lexical Analyzer is a tool that breaks down AtomC source code into tokens (lexical units) 
+for compiler processing. It identifies keywords, identifiers, operators, constants, and 
+delimiters according to AtomC language rules.
+
+PROJECT STRUCTURE
+================
+The project is organized as follows:
+- src/: Contains the source code (main.c) 
+	- include/: Header files (lexer.h, utils.h) 
+	- components/: Auxiliar functions implementation (lexer.c, utils.c)
+- tests/: Sample test files
+- output/: Place where output files are stored together with a copy of analized file
+- docs/: Documentation
+
+INSTALLATION
+===========
+1. Extract the Lexical-Analyzer.zip file
+2. Navigate to the extracted directory
+3. Build the project using the Makefile command:
+   $ make
+
+USAGE
+=====
+Run the executable with no arguments:
+   $ make (execution start is called into makefile)
+
+The program will prompt you to provide a source file in two ways:
+1. [P] Absolute Path - Enter the full path to your source file
+2. [N] File Name - Enter just the file name (must be in the current directory)
+
+The analyzer will process the file and generate output in the 'output/' directory.
+
+SUPPORTED ELEMENTS
+=================
+- Keywords: int, char, double, if, else, while, return, struct, void
+- Operators: +, -, *, /, =, ==, !=, <, <=, >, >=, &&, ||, !
+- Constants: integers, floating-point numbers, characters, strings
+- Delimiters: ;, ,, (, ), [, ], {, }
+
+OUTPUT FORMAT
+============
+The analyzer creates a directory in 'output/' named after your input file.
+It generates:
+1. A copy of your source file
+2. A text file containing all identified tokens with:
+   - Line number
+   - Token type
+   - Token value (where applicable)
+
+IMPLEMENTATION DETAILS
+=====================
+The lexical analyzer works in these steps:
+1. Reads the source file character by character
+2. Identifies tokens based on AtomC language rules
+3. Stores tokens in a linked list structure
+4. Exports the tokens to an output file
+
+CLEANING UP
+==========
+To remove build files:
+   $ make clean
+
+ERROR HANDLING
+=============
+The analyzer provides error messages for:
+- Invalid file paths
+- Memory allocation failures
+- Syntax errors in the source code
+
+For any issues, check the error messages in the console output.
