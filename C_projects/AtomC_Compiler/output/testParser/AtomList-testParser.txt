@@ -22,6 +22,7 @@ Line 7: LPAR
 Line 7: TYPE_DOUBLE
 Line 7: ID [a]
 Line 7: COMMA
+Line 7: TYPE_DOUBLE
 Line 7: ID [b]
 Line 7: RPAR
 Line 7: LACC

@@ -4,7 +4,7 @@ struct Pt{
 };
 struct Pt points[10];
 
-void max(double a, b) {
+void max(double a, double b) {
 	if(a>b)return a;
 		else return b;
 	
