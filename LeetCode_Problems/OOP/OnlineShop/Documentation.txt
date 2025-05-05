@@ -1,0 +1,41 @@
+E-Commerce Order Management System
+You are tasked with designing and implementing a robust e-commerce order management system for a growing online marketplace. The system needs to handle various product types, payment methods, shipping options, and integrate with external services.
+
+Requirements
+Requirement 1
+Design a product catalog system that can handle different types of products (physical goods, digital downloads, subscriptions, etc.). Each product type has its own specific attributes and behaviors:
+
+Physical products have weight, dimensions, and inventory levels
+Digital products have download links and file sizes
+Subscriptions have billing cycles and renewal terms
+Requirement 2
+Implement an order processing pipeline that handles the following stages:
+
+Order creation and validation
+Payment processing through multiple payment gateways (PayPal, Stripe, etc.)
+Inventory management
+Shipping calculation and fulfillment
+Notification system for order status updates
+The system should be able to integrate new payment gateways or shipping providers without modifying existing order processing logic.
+
+Requirement 3
+Create a reporting system that can generate various types of reports (sales, inventory, customer analytics) in multiple formats (PDF, CSV, JSON). The reporting mechanism should be extensible to accommodate new report types and formats as business needs evolve.
+
+Requirement 4
+Implement a discount and promotion engine that can handle various types of offers:
+
+Percentage discounts
+Fixed amount discounts
+Buy-one-get-one offers
+Bundle discounts
+Loyalty point redemptions
+The system should allow for combining multiple applicable promotions according to business rules.
+
+Requirement 5
+Design a user authentication and authorization system that supports different user roles (customers, administrators, vendors) with appropriate access controls for each part of the system.
+
+Constraints
+The solution must be maintainable and extensible
+Performance is critical, especially for the product catalog and order processing components
+The system must be resilient to failures in external services
+Code must be well-tested with appropriate unit and integration tests
