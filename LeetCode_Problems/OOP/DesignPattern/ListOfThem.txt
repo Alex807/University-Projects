@@ -1,0 +1,17 @@
+1. Singleton 
+2. Factory Method 
+* Template Method
+3. Strategy  
+4. Observer 
+5. Repository Pattern 
+6. Adapter 
+7. Decorator 
+8. Composite 
+9. Command Pattern 
+10. Builder 
+11. Dependency Injection Pattern 
+12. State Pattern 
+13. Specification Pattern 
+14. Mediator Pattern
+15. Chain of Responsability 
+16. Facade Pattern
