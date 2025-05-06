@@ -18,19 +18,3 @@ Triggers can be time-based (specific time, sunrise/sunset), event-based (motion 
 Conditions can include device states, environmental factors, user presence, or logical combinations of these
 Actions can target any device in the system with appropriate commands
 The rules engine should support both simple rules (if X then Y) and complex rules with multiple conditions and actions. Rules should be able to be enabled/disabled, scheduled for specific times/days, and prioritized to handle conflicts. The system must prevent infinite loops and detect conflicting rules.
-
-Requirement 3
-Create a notification and monitoring subsystem that provides real-time updates on device status, alerts for important events, and historical data analysis:
-
-Support multiple notification channels (mobile push, email, SMS, in-app)
-Allow users to configure notification preferences for different event types and priorities
-Provide a dashboard for visualizing device status, energy usage, and system health
-Implement a logging system that records all device activities and system events
-Generate periodic reports on system usage, anomalies, and optimization suggestions
-The monitoring system should be scalable to handle hundreds of devices and thousands of events per day while maintaining performance. It should also provide an API for third-party integrations.
-
-Constraints
-The solution must be maintainable and extensible to accommodate new device types and features
-The system must be reliable and continue functioning even if some components fail
-User privacy and security must be prioritized in all aspects of the design
-The system should operate with minimal latency for real-time control operations
