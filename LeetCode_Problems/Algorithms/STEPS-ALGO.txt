@@ -1,0 +1,7 @@
+Pasi in abordare sub ALGORITMI 
+
+			!! MAXIM 50 MIN LA ALG(pune bratara timer la 25 min.)
+
+	[REQ1] --> 25 min 
+1. citeste de 5ORI cu atentie cerinta si vezi ce vor(cauta cuv. cheie) 
+2. 

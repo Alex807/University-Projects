@@ -1,0 +1,28 @@
+Pasi in abordare sub OOP 
+
+			!! MAXIM 50 MIN LA OOP(pune bratara timer la 25 min.)
+
+	[REQ1] --> 20 min
+1. realizeaza ierarhia de clase de la Req1 
+2. fii EXTREM de atent la fiecare cuvant din enunt(pastreaza DENUMIRILE) 
+3. NU te complica cu comentarii, identare, denunmiri_Lungi 
+4. NU folosi tipuri complexe pt atribute daca nu este nevoie
+* DACA ai nevoie poti folosi enum-uri
+ 
+***DACA AI TIMP doar**** la FINAL poti face un factory method(statica) care sa creeze subclasele
+
+5. in clasa abstracta ce ai niste param si ai o metoda cu ei, aplica TEMPLATE METHOD si adauga metode abstracte pe care le faci override in subclase cu param. lor specifici 
+6. in clasa in care tii obiecte de tipul BASE si le prelucrezi, spune in comentarii ca folosesti STRATEGY PATTERN 
+ !!CAUTA COD DUPLICAT sau daca poti aplica un alt DP din lista!!
+
+
+	[REQ2] --> 30min 
+1. citeste de 5ORI cu atentie cerinta si intelege ce doreste sa faci 
+2. gaseste ce {DesignPattern}, doar unul trb, din lista(sa ajute la ce zic ei, cauta cuv cheie si vezi scheme PDSS sa te ajute) 
+***DACA ESTI SIGUR ca nu este din cele de la PDSS, verifica lista completa cu DP!!!!
+3. acm ca stii DP necesar, lucreaza in permanenta cu o diagrama UML in fata 
+4. respecta DENUMIRI + exemplele date  
+5. fa-ti o schita pe foaie pentru claritate 
+
+	FINAL: ia codul din aplicatia lor si pune-l intr-un fisier si COMPILEAZA sa vezi daca ai uitat cv(vezi constructori cu SUPER in subclase)
+
