@@ -15,12 +15,12 @@
 2. Decorator =  adaugam COMPORTAMENT unui OBIECT prin adaugarea unui obiect in interiorul acestuia folosind COMPOZITIA
 		creem obiecte ce contin UN OBIECT(de tip BASE) iar cand executam o actiune AMBELE OBIECTE CONTRIBUIE(actiune obiect continut + actiune obiect principal) 
 
-*  Adapter = avem o clasa Adapter ce face call pe obiectul ce nu respecta un tip al interfetei, si IL PRELUCREAZA pentru a ajunge la acel tip
+*  Adapter = avem o clasa Adapter separata de restul (IMPLEMENTS interfata logicii vechi si CONTINE-ATRIBUT pe clasa pe care dorim sa lucram acum) 
 
 (COMPORTAMENT) 
 1. Chain_of_Responsability = contine un atribut de tip BASE(NEXT) si un atribut PROTECTED(succeeded) pe care il apeleaza daca nodul curent nu poate gestiona situatia(next.handle())
 
-2. Command Pattern = folosit pentru a executa mai multe actiuni la apasarea unui BUTON(la butoane-comenzi este folosit de obicei) 
+2. Command Pattern = transforma o metoda/task sau un request/comportament intr-un OBIECT ce are in interiorul sau toate datele sa fie executat(COMANDA este continuta drept ATRIBUT in clasa 		unde vrem sa o executam) --> COMPORTAMENTE REPETATE in cadrul programului
 
 3. Observer = folosit pentru comunicarea intre obiecte atunci cand starea obiectului SUBIECT este modificata(SUBIECT-statieMeteo, Ziar, PostStiri etc; CONCRETE_OBSERVER -> Alex, Mihai (cine e interesat) SUBIECT(cel ce este analizat si anuntati obs)  OBSERVER(cel ce reactioneaza la schimbarea SUB.)
      ! SUBIECTUL contine o lista de observers!
