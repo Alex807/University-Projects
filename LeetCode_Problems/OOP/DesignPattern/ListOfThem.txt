@@ -9,9 +9,11 @@
 4. Factory Method = folosit pentru a creea instante al subclaselor pe baza unui parametru string TYPE
 
 (STRUCTURALE) 
-1. Composite = vrem sa creem obiecte ce contin O COLECTIE<BASE-type> de obiecte pe care executam o actiune(doar obiectul FRUNZA face actiunea propriu zisa, restul delega sarcini)
+1. Composite = folosit pentru a creea STRUCTURI ARBORESCENTE ce sunt tratate ca obiecte de sine statatoare(delega actiunea catre lista de elem. componente)
+		vrem sa creem obiecte ce contin O COLECTIE<BASE-type> de obiecte pe care executam o actiune(doar obiectul FRUNZA face actiunea propriu zisa, restul delega sarcini)
 
-2. Decorator = creem obiecte ce contin UN OBIECT(de tip BASE) iar cand executam o actiune AMBELE OBIECTE CONTRIBUIE(actiune obiect continut + actiune obiect principal) 
+2. Decorator =  adaugam COMPORTAMENT unui OBIECT prin adaugarea unui obiect in interiorul acestuia folosind COMPOZITIA
+		creem obiecte ce contin UN OBIECT(de tip BASE) iar cand executam o actiune AMBELE OBIECTE CONTRIBUIE(actiune obiect continut + actiune obiect principal) 
 
 *  Adapter = avem o clasa Adapter ce face call pe obiectul ce nu respecta un tip al interfetei, si IL PRELUCREAZA pentru a ajunge la acel tip
 

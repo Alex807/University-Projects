@@ -4,4 +4,6 @@ Pasi in abordare sub ALGORITMI
 
 	[REQ1] --> 25 min 
 1. citeste de 5ORI cu atentie cerinta si vezi ce vor(cauta cuv. cheie) 
-2. 
+2. ruleaza PE HARTIE algoritmul tau si tine seama de cum se actualizeaza/modif param si variabilele 
+3. NU  MODIFICA semnatura metodei date de catre ei(nu adauga param in plus, vezi cum trb dedusi aceia) 
+4. foloseste cat mai putine variabile/contori AUXILIARY (foloseste-te de I /% si de copiere colectii System.copy) 
