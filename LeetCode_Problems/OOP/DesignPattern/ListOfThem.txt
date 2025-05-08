@@ -27,7 +27,7 @@
 
 5. Strategy Pattern = folosim atunci cand retine o COLECTIE<BASE-type> pe care apelam la fiecare elem o operatie, dar nu trb sa stim exact ce subtip este apelat
 
-6. Visitor = folosim cand vrem sa SEPARAM algoritmul/logica de obiectele pe care lucreaza(fiecare Telefon trebuie sa aiba  acelasi FEATURES ce le poate executa[toate features sa fie suportate de toate TEL), deci nu poate fi particularizat pe un telefon anume) 
+6. Visitor = folosim cand vrem sa SEPARAM algoritmul/logica de CLASA PE_CARE se aplica alg(fiecare Telefon trebuie sa aiba  acelasi FEATURES ce le poate executa[toate features sa fie suportate de toate TEL), deci nu poate fi particularizat pe un telefon anume) 
 
 7. Acyclic Visitor = decuplam FEATURE de TELEFON si astfel pot fi  particularizate fiecare TEL ce stie sa faca(facem o INTERFATA-BASE urmata de INTERFETE pentru FIECARE FEATURE) ->trebuie ca metodele sa primeasca acel obiect, vezi cod Digital-Ocean la VISITOR
 
