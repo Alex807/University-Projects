@@ -18,12 +18,13 @@
 *  Adapter = avem o clasa Adapter separata de restul (IMPLEMENTS interfata logicii vechi si CONTINE-ATRIBUT pe clasa pe care dorim sa lucram acum) 
 
 (COMPORTAMENT) 
-1. Chain_of_Responsability = contine un atribut de tip BASE(NEXT) si un atribut PROTECTED(succeeded) pe care il apeleaza daca nodul curent nu poate gestiona situatia(next.handle())
+1. Chain_of_Responsability = transforma un comportament PARTICULAR intr-un OBIECT de sine statator numit HANDLER(paseaza task-ul daca nu il poate face)
+				contine un atribut de tip BASE(NEXT) si un atribut PROTECTED(succeeded) pe care il apeleaza daca nodul curent nu poate gestiona situatia(next.handle())
 
 2. Command Pattern = transforma o metoda/task sau un request/comportament intr-un OBIECT ce are in interiorul sau toate datele sa fie executat(COMANDA este continuta drept ATRIBUT in clasa 		unde vrem sa o executam) --> COMPORTAMENTE REPETATE in cadrul programului
 
 3. Observer = folosit pentru comunicarea intre obiecte atunci cand starea obiectului SUBIECT este modificata(SUBIECT-statieMeteo, Ziar, PostStiri etc; CONCRETE_OBSERVER -> Alex, Mihai (cine e interesat) SUBIECT(cel ce este analizat si anuntati obs)  OBSERVER(cel ce reactioneaza la schimbarea SUB.)
-     ! SUBIECTUL contine o lista de observers!
+     !!  SUBIECTUL contine o lista de observers  !!
 
 4. Template Method = definim o metoda ce are un schelet COMUN pentru toate subclasele sale(definesti metoda cu ce e comun si partile specifice le pui drept apel catre metode abstracte ce vor fi override in subclase)
 

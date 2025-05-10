@@ -1,13 +1,9 @@
-/*One of the great example of Chain of Responsibility pattern is ATM Dispense machine. 
-The user enters the amount to be dispensed and the machine dispense amount in terms of defined currency bills such as 50$, 20$, 10$ etc. 
-If the user enters an amount that is not multiples of 10, it throws error. 
-We will use Chain of Responsibility pattern to implement this solution. 
-The chain will process the request in order: 50 -> 20 -> 10*/
+// ATM ce divide o suma in mai multe tipuri de bancnote
 
 import java.util.*;
 
 class Currency { //clasa ce retine valoarea unei BANCNOTE
-	private int amount; 
+	private int amount; //(obiectul pe care facem HANDLE)
 	
 	public Currency(int amount) { 
 		this.amount = amount;
@@ -18,109 +14,70 @@ class Currency { //clasa ce retine valoarea unei BANCNOTE
 	}
 }
 
-interface DispenseChain { 
-	void setNextChain(DispenseChain nextChain); 
-	void dispense(Currency currency);
+interface Handler { //INTERFATA pt BASE-type in care tinem doar metoda de handle
+	boolean handle(Currency currency); 
+	Handler setNext(Handler handler);
 }
 
-class Dollar50Dispenser implements DispenseChain { 
-	private DispenseChain nextChain; 
+abstract class BaseHandler implements Handler{ //FACTORIZAM codul comun celor ce vor avea logica de handle 
+	private Handler next; 
 	
-	public void setNextChain(DispenseChain nextChain) { 
-		this.nextChain = nextChain;
+	public abstract boolean handle(Currency currency); //override in fiecare subclasa
+	
+	public Handler setNext(Handler handler) {
+		this.next = handler; 
+		return handler; //facem asta pentru a seta mai usor lantul de HANDLERS
 	}
 	
-	public void dispense(Currency cur) { 
-		int amount = cur.getAmount();
-		if (amount >= 50) { //VERIFICAREA cu acel param protected succeeded
-			int totalNotes = amount / 50; 
-			int changeLeft = amount % 50; 
-			
-			System.out.println(String.format("Just dispensed %d 50Ron note/s", totalNotes)); 
-			
-			if (changeLeft != 0) this.nextChain.dispense(new Currency(changeLeft));
+	protected boolean handleNext(Currency currency) { //o fol. sa fim SIGURI ca AVEM NEXT(e PROTECTED)
+		if (next == null && currency.getAmount() != 0) { //LOGICA cand e task-ul tau rezolvat complet sau NU
+			return false;
 		
-		} 
-		
-		if (nextChain == null) {
-			System.out.println("This configuration of linkage don't devide amount.");			
-			System.exit(-1);
-		}else { 
-			this.nextChain.dispense(cur); //NU PUTEM gestiona acest caz in nodul curent, deci pasam la urmatorul
+		} else if (currency.getAmount() == 0) { 
+			 
+			return true;
 		}
-	} 
+		return next.handle(currency); //PASAM spre next 
+	}
 }
 
-class Dollar20Dispenser implements DispenseChain { 
-	private DispenseChain nextChain; 
+class ATM_CashHandler extends BaseHandler { // CONCRET HANDLER ce face handle
+	private int noteValue; 
 	
-	public void setNextChain(DispenseChain chain) { 
-		this.nextChain = chain;
+	public ATM_CashHandler (int noteValue) { //primesti ce ai nevoie(atribute specifice unui nod)
+		this.noteValue = noteValue;
 	}
 	
-	public void dispense(Currency cur) { 
+	public boolean handle(Currency cur) { 
 		int amount = cur.getAmount();
-		if (amount >= 20) { 
-			int totalNotes = amount / 20; 
-			int changeLeft = amount % 20;
-			System.out.println(String.format("Just dispensed %d 20Ron note/s\n", totalNotes));
-			
-			if (changeLeft != 0) this.nextChain.dispense(new Currency(changeLeft));
-				
+		int totalNotes = amount / noteValue; 
+		int changeLeft = amount % noteValue; 
+		
+		if (amount >= noteValue) { //VERIFICAM daca putem rezolva TASK in acest nod, daca nu PASS IT
+			System.out.println(String.format("Just dispensed %d %dRon note/s", totalNotes, noteValue)); 
 		} 
 		
-		if (nextChain == null) { 
-			System.out.println("This configuration of linkage don't devide amount.");
-			System.exit(-1);
-		}else { 
-			this.nextChain.dispense(cur); //NU PUTEM gestiona acest caz in nodul curent, deci pasam la urmatorul
-		}
-	}
-} 
-
-class Dollar10Dispenser implements DispenseChain { 
-	private DispenseChain nextChain; 
-	
-	public void setNextChain(DispenseChain chain) { 
-		this.nextChain = chain;
-	}
-	
-	public void dispense(Currency cur) { 
-		int amount = cur.getAmount();
-		if (amount >= 10) { 
-			int totalNotes = amount / 10; 
-			int changeLeft = amount % 10;
-			System.out.println(String.format("Just dispensed %d 10Ron note/s\n", totalNotes));
-			
-			if (changeLeft != 0) this.nextChain.dispense(new Currency(changeLeft));
-				
-		} 
-		if (nextChain == null) {
-			System.out.println("This configuration of linkage don't devide amount.");			
-			System.exit(-1);
-		}else { 
-			this.nextChain.dispense(cur); //NU PUTEM gestiona acest caz in nodul curent, deci pasam la urmatorul
-		}
-	}
-} 
+		return handleNext(new Currency(changeLeft)); //metoda din BASE-Handler se ocupa de null-checks si daca procesul e gata
+	} //doar aici apelezi catre un nextHandler
+}
 
 public class Main {
 
-	private DispenseChain c1;
+	private Handler handler;
 
 	public Main() {
-		// initialize the chain
-		this.c1 = new Dollar50Dispenser();
-		DispenseChain c2 = new Dollar20Dispenser();
-		DispenseChain c3 = new Dollar10Dispenser();
+		// creem handleri
+		this.handler = new ATM_CashHandler(50);
+		Handler c2 = new ATM_CashHandler(20);
+		Handler c1 = new ATM_CashHandler(10);
 
 		// set the chain of responsibility
-		c1.setNextChain(c2);
-		//c2.setNextChain(c1);
+		handler.setNext(c2).setNext(c1);
 	}
 
 	public static void main(String[] args) {
-		Main atmDispenser = new Main();
+		Main ATM = new Main();
+		
 		while (true) {
 			int amount = 0;
 			System.out.println("Enter amount to dispense");
@@ -130,11 +87,15 @@ public class Main {
 				System.out.println("Amount should be in multiple of 10s.");
 				continue;
 			}
+			
 			// process the request
-			atmDispenser.c1.dispense(new Currency(amount));
-			break; //stop the code
+			if ( ATM.handler.handle(new Currency(amount))) {
+				System.out.println("ATM dispense all the notes needed!");
+			
+			} else { 
+				System.out.println("This configuration of linkage don't devide amount.");		
+			} 
+			break;
 		}
-
 	}
-
 }
