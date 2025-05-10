@@ -4,9 +4,12 @@
 
 2. Cloning(Prototype) = fie creaza in intregime alt obiect identic/pointer la aceeasi zona de mem
 
-3. Builder pattern = folosim pentru a creea mai usor obiecte si sa nu avem extrem de multe args in constructor
+3. Builder pattern = folosim pentru a creea mai usor obiecte si sa nu avem extrem de multe args in constructor(putem folosi DIRECTORYS pentru a retine proceduri de creeare)
 
-4. Factory Method = folosit pentru a creea instante al subclaselor pe baza unui parametru string TYPE
+4. Factory Method = slabeste CUPLAREA intre codul necesar creeri unui obiect si codul ce prelucreaza acel tip de obiect(fol. cand NU stii exact ce TYPE au obiectele ce le prelucrezi in cod
+			folosit pentru a creea instante al subclaselor pe baza unui parametru string TYPE
+
+*  Abstract Factory = folosim cand codul nostru trb. sa lucreze cu o MARE VARIETATE de tipuri interconectate(ex. cu diferite tipuri de restaurante ce au dif. tipuri de produse)
 
 (STRUCTURALE) 
 1. Composite = folosit pentru a creea STRUCTURI ARBORESCENTE ce sunt tratate ca obiecte de sine statatoare(delega actiunea catre lista de elem. componente)
@@ -35,7 +38,7 @@
 7. Acyclic Visitor = decuplam FEATURE de TELEFON si astfel pot fi  particularizate fiecare TEL ce stie sa faca(facem o INTERFATA-BASE urmata de INTERFETE pentru FIECARE FEATURE) ->trebuie ca metodele sa primeasca acel obiect, vezi cod Digital-Ocean la VISITOR
 
 
-   !!!DACA ai nevoie vezi DIGITAL-OCEAN / Geeks diagrame despre DP necesar !!!!
+   !!!DACA ai nevoie vezi DIGITAL-OCEAN / Geeks / Ref.GURU / youtube(Geekific) diagrame despre DP necesar !!!!
 
       (Principii-SOLID) 
 1. Single Responsability
