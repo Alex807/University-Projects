@@ -18,8 +18,10 @@ abstract class WeatherInfoLayer {
 	
     public final String toString() { //FINAL pt a nu lasa subclasele sa faca override pe aceasta metoda
         String result = String.format("Start time: %d \nEnd time: %d \nValue: %.2f \nUnit Measure: %s\n", startTime, endTime, value, unitMeasure);
-		return result + displayIcon() + displayColor();
+		return result + displayIcon() + displayColor() + "\n";
 	}
+	
+	public abstract void accept(APILayer visit);
 }
 
 enum ChancesOfRain{
@@ -30,7 +32,7 @@ enum ChancesOfRain{
     VeryHigh
 }
 
-class Temperature extends WeatherInfoLayer implements MeteoMaticsLayersType {
+class Temperature extends WeatherInfoLayer {
     private double realFeel;
     private double realFeelShadow;
     private ChancesOfRain chancesOfRain;
@@ -49,9 +51,15 @@ class Temperature extends WeatherInfoLayer implements MeteoMaticsLayersType {
 	public String displayColor() { 
 		return "Color: ORANGE";
 	}
+	
+	public void accept(APILayer visitor) { 
+		if (visitor instanceof TemperatureLayer) { 
+			((TemperatureLayer)visitor).visit(this);
+		}
+	}
 }
 
-class Wave extends WeatherInfoLayer implements MeteoMaticsLayersType {
+class Wave extends WeatherInfoLayer {
     private double degrees;
     private double waterTemperature;
 
@@ -68,9 +76,15 @@ class Wave extends WeatherInfoLayer implements MeteoMaticsLayersType {
     public String displayColor() {
         return "Color: " +  (waterTemperature > 27.0 ? "RED\n" : "BLUE\n");
     }
+	
+	public void accept(APILayer visitor) { 
+		if (visitor instanceof WaveLayer) {
+			((WaveLayer)visitor).visit(this);
+		}
+	}
 }
 
-class Wind extends WeatherInfoLayer implements MeteoMaticsLayersType{
+class Wind extends WeatherInfoLayer {
     private int degrees;
 
     public Wind(int startTime, int endTime, double value, String unitMeasure, int degrees) {
@@ -96,6 +110,12 @@ class Wind extends WeatherInfoLayer implements MeteoMaticsLayersType{
 	public String displayColor() { 
 		return "Color: GRAY\n";
 	}
+	
+	public void accept(APILayer visitor) {
+		if (visitor instanceof WindLayer) { 
+			((WindLayer)visitor).visit(this);
+		}	
+	}
 }
 
 class WeatherProvider {
@@ -119,177 +139,77 @@ class WeatherProvider {
 //----------------------------------------------------------------------
 
 
-abstract class thirdPartyAPI { //ACYCLIC VISITOR
-	public abstract String collectWeatherData(LayersOfAPI config);
-}
-
-class WindyAPI extends thirdPartyAPI {
-	private List<Wind> windLayers;
-	
-	public WindyAPI() { 
-		this.windLayers = new ArrayList<>(); 
-	}
-	
-	public void addWindLayer(Wind layer) { 
-		windLayers.add(layer);
-	}
-	
-	public List<Wind> getWindLayers() { 
-		return windLayers;
-	}
-	
-	public String collectWeatherData(LayersOfAPI config) { 
-		String result = "";
-		if (config instanceof WindyConfig) { 
-			result = ((WindyConfig)config).collectData(this);
-		}
-		return result;
-	}
-}
-
-class AccuWeatherAPI extends thirdPartyAPI { 
-	private List<Temperature> tempLayers;
-	
-	public AccuWeatherAPI () { 
-		this.tempLayers = new ArrayList<>();
-	}
-	
-	public void addTempLayer(Temperature layer) { 
-		tempLayers.add(layer);
-	}
-	
-	public List<Temperature> getTempLayers() { 
-		return tempLayers;
-	}
-	
-	public String collectWeatherData(LayersOfAPI config) { 
-		String result = "";
-		if (config instanceof AccuWeatherConfig) { 
-			result = ((AccuWeatherConfig)config).collectData(this);
-		}
-		return result;
-	}
-} 
-
-interface MeteoMaticsLayersType { 
-}
-
-class MeteoMaticsAPI extends thirdPartyAPI { 
-	private List<MeteoMaticsLayersType> layers; 
-	
-	public MeteoMaticsAPI () { 
-		this.layers = new ArrayList<>();
-	}
-	
-	public void addLayer(MeteoMaticsLayersType layer) { 
-		layers.add(layer);
-	}
-	
-	public List<MeteoMaticsLayersType> getLayers() { 
-		return layers;
-	}
-	
-	public String collectWeatherData(LayersOfAPI config) { 
-		String result = "";
-		if (config instanceof MeteoMaticsConfig) { 
-			result = ((MeteoMaticsConfig)config).collectData(this);
-		}
-		return result;
-	}
-}
-
-interface LayersOfAPI { 
+interface APILayer { //FEATURE interface in schema pdss 
 
 }
 
-interface WindyConfig extends LayersOfAPI{ //INTERFACE for EACH API type
-	String collectData(WindyAPI api);
-} 
-
-interface AccuWeatherConfig extends LayersOfAPI { 
-	String collectData(AccuWeatherAPI api);
+//interfata pentru FIECARE TIP ce este necesar actiunii(layer-urile)
+interface TemperatureLayer extends APILayer { 
+	void visit(Temperature layer);
 }
 
-interface MeteoMaticsConfig extends LayersOfAPI {  
-	String collectData(MeteoMaticsAPI api);
+interface WaveLayer extends APILayer {
+	void visit(Wave layer);
 }
 
+interface WindLayer extends APILayer { 
+	void visit(Wind layer);
+}
 
-class TemperatureFeature implements AccuWeatherConfig, MeteoMaticsConfig { 
-	public String collectData(AccuWeatherAPI api) { 
-		List<Temperature> apiLayers = api.getTempLayers();
-		StringBuilder result = new StringBuilder();
-		result.append("Temp_Feature in AccuWeatherAPI: \n");
-		
-		for (Temperature current : apiLayers) { 
-			result.append(current.toString());
-		}
-		return result.toString();
+class AccuWeather implements TemperatureLayer { 
+	public void visit(Temperature layer) { 
+		System.out.println(layer.toString());
+	}
+}
+
+class MeteoMatics implements TemperatureLayer, WaveLayer, WindLayer { 
+	public void visit(Temperature layer) { 
+		System.out.println(layer.toString());
 	}
 	
-	public String collectData(MeteoMaticsAPI api) { 
-		List<MeteoMaticsLayersType> apiLayers = api.getLayers();
-		StringBuilder result = new StringBuilder();
-		result.append("Temp_Feature in MeteoMaticsAPI: \n");
-		
-		for (MeteoMaticsLayersType current : apiLayers) { 
-			result.append(current.toString());
-		}
-		return result.toString();
-	}
-}
-
-class WindFeature implements WindyConfig, AccuWeatherConfig, MeteoMaticsConfig { 
-	public String collectData(WindyAPI api) { 
-		List<Wind> apiLayers = api.getWindLayers();
-		StringBuilder result = new StringBuilder();
-		result.append("Wind_Feature in WindyAPI: \n");
-		
-		for (Wind current : apiLayers) { 
-			result.append(current.toString());
-		}
-		return result.toString();
+	public void visit(Wind layer) { 
+		System.out.println(layer.toString());
 	}
 	
-	public String collectData(AccuWeatherAPI api) { 
-		List<Temperature> apiLayers = api.getTempLayers();
-		StringBuilder result = new StringBuilder();
-		result.append("Wind_Feature in AccuWeatherAPI: \n");
-		
-		for (Temperature current : apiLayers) { 
-			result.append(current.toString());
-		}
-		return result.toString();
-	}
-	
-	public String collectData(MeteoMaticsAPI api) { 
-		List<MeteoMaticsLayersType> apiLayers = api.getLayers();
-		StringBuilder result = new StringBuilder();
-		result.append("Wind_Feature in MeteoMaticsAPI: \n");
-		
-		for (MeteoMaticsLayersType current : apiLayers) { 
-			result.append(current.toString());
-		}
-		return result.toString();
+	public void visit(Wave layer) { 
+		System.out.println(layer.toString());
 	}
 }
 
-class WaveFeature implements MeteoMaticsConfig { 
-	public String collectData(MeteoMaticsAPI api) { 
-		List<MeteoMaticsLayersType> apiLayers = api.getLayers();
-		StringBuilder result = new StringBuilder();
-		result.append("Wave_Feature in MeteoMaticsAPI: \n");
-		
-		for (MeteoMaticsLayersType current : apiLayers) { 
-			result.append(current.toString());
-		}
-		return result.toString();
+class Windy implements WindLayer {
+	public void visit(Wind layer) { 
+		System.out.println(layer.toString());
 	}
 }
 
+public class Req2 {
+    public static void main(String[] args) {
+        // Create weather layer instances
+        Wind wind = new Wind(8, 12, 25.5, "km/h", 180);
+        Wave wave = new Wave(8, 12, 1.5, "m", 45.0, 28.5);
+        Temperature temp = new Temperature(8, 12, 30.0, "°C", 32.0, 28.0, 
+            ChancesOfRain.Medium);
 
-public class Req2 { 
-	public static void main(String[] args) { 
-		System.out.println("MERGE");
-	}
+        // Create weather provider and display data
+        System.out.println("=== Weather Provider Test ===");
+        WeatherProvider provider = new WeatherProvider(wind, wave, temp);
+        System.out.println(provider.displayWeatherData());
+
+        // Test different API providers
+        System.out.println("\n=== API Providers Test ===");
+        
+        System.out.println("AccuWeather (Temperature only):");
+        AccuWeather accuWeather = new AccuWeather();
+        temp.accept(accuWeather);
+
+        System.out.println("\nWindy (Wind only):");
+        Windy windy = new Windy();
+        wind.accept(windy);
+
+        System.out.println("\nMeteoMatics (All layers):");
+        MeteoMatics meteoMatics = new MeteoMatics();
+        temp.accept(meteoMatics);
+        wave.accept(meteoMatics);
+        wind.accept(meteoMatics);
+    }
 }

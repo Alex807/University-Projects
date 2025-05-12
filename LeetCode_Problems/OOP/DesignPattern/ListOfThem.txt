@@ -15,10 +15,16 @@
 1. Composite = folosit pentru a creea STRUCTURI ARBORESCENTE ce sunt tratate ca obiecte de sine statatoare(delega actiunea catre lista de elem. componente)
 		vrem sa creem obiecte ce contin O COLECTIE<BASE-type> de obiecte pe care executam o actiune(doar obiectul FRUNZA face actiunea propriu zisa, restul delega sarcini)
 
-2. Decorator =  adaugam COMPORTAMENT unui OBIECT prin adaugarea unui obiect in interiorul acestuia folosind COMPOZITIA
+2. Decorator =  adaugam COMPORTAMENT(in mod DINAMIC) unui OBIECT prin adaugarea unui obiect in interiorul acestuia folosind COMPOZITIA
 		creem obiecte ce contin UN OBIECT(de tip BASE) iar cand executam o actiune AMBELE OBIECTE CONTRIBUIE(actiune obiect continut + actiune obiect principal) 
 
-*  Adapter = avem o clasa Adapter separata de restul (IMPLEMENTS interfata logicii vechi si CONTINE-ATRIBUT pe clasa pe care dorim sa lucram acum) 
+*  Adapter = avem o clasa Adapter separata de restul (IMPLEMENTS interfata logicii vechi si CONTINE-ATRIBUT pe clasa pe care dorim sa lucram acum)  
+
+*  Bridge = reduce folosirea la UN concept simultan pentru a determina un nou SUBTIP(restaurant_Type si ingrediente)
+		reducerea numarului de subclase si simplificarea ierarhiei
+
+*  Facade = o noua clasa in care facem in spate operatiile necesare pentru a realiza actiuni pe un tip de obiecte(simplificare user interface) 
+		(aplicarea unei MASTI ce ascunde complexitatea operatiilor din spate lasand user sa fol. doar principalele instructiuni)
 
 (COMPORTAMENT) 
 1. Chain_of_Responsability = transforma un comportament PARTICULAR intr-un OBIECT de sine statator numit HANDLER(paseaza task-ul daca nu il poate face)
@@ -29,13 +35,22 @@
 3. Observer = folosit pentru comunicarea intre obiecte atunci cand starea obiectului SUBIECT este modificata(SUBIECT-statieMeteo, Ziar, PostStiri etc; CONCRETE_OBSERVER -> Alex, Mihai (cine e interesat) SUBIECT(cel ce este analizat si anuntati obs)  OBSERVER(cel ce reactioneaza la schimbarea SUB.)
      !!  SUBIECTUL contine o lista de observers  !!
 
-4. Template Method = definim o metoda ce are un schelet COMUN pentru toate subclasele sale(definesti metoda cu ce e comun si partile specifice le pui drept apel catre metode abstracte ce vor fi override in subclase)
+4. Template Method = definim o metoda ce are un schelet COMUN pentru toate subclasele sale(definesti metoda cu ce e comun si partile specifice le pui drept apel catre metode abstracte ce vor fi override in subclase) --> metoda schelet sa fie FINAL deoarece NU VREM sa fie override in subclase)
 
 5. Strategy Pattern = folosim atunci cand retine o COLECTIE<BASE-type> pe care apelam la fiecare elem o operatie, dar nu trb sa stim exact ce subtip este apelat
 
 6. Visitor = folosim cand vrem sa SEPARAM algoritmul/logica de CLASA PE_CARE se aplica alg(fiecare Telefon trebuie sa aiba  acelasi FEATURES ce le poate executa[toate features sa fie suportate de toate TEL), deci nu poate fi particularizat pe un telefon anume) 
 
-7. Acyclic Visitor = decuplam FEATURE de TELEFON si astfel pot fi  particularizate fiecare TEL ce stie sa faca(facem o INTERFATA-BASE urmata de INTERFETE pentru FIECARE FEATURE) ->trebuie ca metodele sa primeasca acel obiect, vezi cod Digital-Ocean la VISITOR
+7. Acyclic Visitor = putem particulariza pentru fiecare thirdAPI ce feature anume suporta, NU TREBUIE sa fie suportate toate feature-le de toate API's 
+		 	decuplam FEATURE de TELEFON si astfel pot fi  particularizate fiecare TEL ce stie sa faca(facem o INTERFATA-BASE urmata de INTERFETE pentru FIECARE FEATURE) ->trebuie ca metodele sa primeasca acel obiect, vezi cod Digital-Ocean la VISITOR
+
+*  State = permite unui obiect sa-si MODIFICE COMPORTAMENTUL atunci cand STAREA_INTERNA este schimbata(retinem intr-un atribut STAREA_CURENTA a obiectului pentru a stii cum i se modifica in functie de stare comportamentul obiectului)
+	     folosit pentru a implementa comportamentul unui automat FSM(stari finite, unde in starea A daca apesi X te duci in starea B, etc....)
+
+*  Iterator = extrage comportamentul legat de CUM_PARCURGEM o colectie intr-un obiect SEPARAT numit iterator (traversam colectia FARA a expune datele din interior, precum poz_Curenta, noduriRamase, etc  --> deci putem parcurge cu MULTIPLI ITERATORI ACEEASI COLECTIE in acelasi timp fara vreo problema
+
+*  Interpretor =  prezinta un mod de evaluare a unor operatii/etape intr-un limbaj programare, definind un limbaj impreuna cu gramatica sa (o clasa reprezinta o operatie) 
+		folosit pentru structuri precum ARBORI DE SINTAXA(ierarhizarea operatiilor ce trebuie efectuate)
 
 
    !!!DACA ai nevoie vezi DIGITAL-OCEAN / Geeks / Ref.GURU / youtube(Geekific) diagrame despre DP necesar !!!!

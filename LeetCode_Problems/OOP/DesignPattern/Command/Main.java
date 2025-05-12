@@ -1,5 +1,5 @@
 import java.util.*;
-
+//poate fi si abstracta
 class Room { //INVOKER (nu putem tine logica pentru LIGHTS in base-clase ROOM, deoarece poate avem si alte lumini ce nu sunt in camere, 
 			//si astfel am avea cod duplicat(actiunea este EXTRASA intr-un obiect)
 	

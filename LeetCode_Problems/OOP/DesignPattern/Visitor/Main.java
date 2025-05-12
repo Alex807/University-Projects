@@ -91,7 +91,7 @@ class GiveReviewOnLocationVisitor implements Visitor { //CALL feature din pdss
 	
 	public void sentMessToClients(List<Client> clients) { //prelucram lista de elem CONCRETE BASE 
 		for (Client cl : clients) { 
-			cl.accept(this); 
+			cl.accept(this); //AICI se intampla logica de apelare
 		}
 	}
 	
