@@ -55,9 +55,10 @@ class ATM_CashHandler extends BaseHandler { // CONCRET HANDLER ce face handle
 		
 		if (amount >= noteValue) { //VERIFICAM daca putem rezolva TASK in acest nod, daca nu PASS IT
 			System.out.println(String.format("Just dispensed %d %dRon note/s", totalNotes, noteValue)); 
+			return handleNext(new Currency(changeLeft));
 		} 
 		
-		return handleNext(new Currency(changeLeft)); //metoda din BASE-Handler se ocupa de null-checks si daca procesul e gata
+		return handleNext(cur)); //metoda din BASE-Handler se ocupa de null-checks si daca procesul e gata
 	} //doar aici apelezi catre un nextHandler
 }
 

@@ -1,0 +1,86 @@
+Line 2: TYPE_INT
+Line 2: ID [fact]
+Line 2: LPAR
+Line 2: TYPE_INT
+Line 2: ID [n]
+Line 2: RPAR
+Line 2: LACC
+Line 3: IF
+Line 3: LPAR
+Line 3: ID [n]
+Line 3: LESS
+Line 3: INT [3]
+Line 3: RPAR
+Line 3: RETURN
+Line 3: ID [n]
+Line 3: SEMICOLON
+Line 4: RETURN
+Line 4: ID [n]
+Line 4: MUL
+Line 4: ID [fact]
+Line 4: LPAR
+Line 4: ID [n]
+Line 4: SUB
+Line 4: INT [1]
+Line 4: RPAR
+Line 4: SEMICOLON
+Line 5: RACC
+Line 7: VOID
+Line 7: ID [main]
+Line 7: LPAR
+Line 7: RPAR
+Line 7: LACC
+Line 8: ID [put_i]
+Line 8: LPAR
+Line 8: DOUBLE [4.90]
+Line 8: RPAR
+Line 8: SEMICOLON
+Line 10: ID [put_i]
+Line 10: LPAR
+Line 10: ID [fact]
+Line 10: LPAR
+Line 10: INT [3]
+Line 10: RPAR
+Line 10: RPAR
+Line 10: SEMICOLON
+Line 13: TYPE_INT
+Line 13: ID [r]
+Line 13: SEMICOLON
+Line 14: ID [r]
+Line 14: ASSIGN
+Line 14: INT [1]
+Line 14: SEMICOLON
+Line 15: TYPE_INT
+Line 15: ID [i]
+Line 15: SEMICOLON
+Line 16: ID [i]
+Line 16: ASSIGN
+Line 16: INT [2]
+Line 16: SEMICOLON
+Line 17: WHILE
+Line 17: LPAR
+Line 17: ID [i]
+Line 17: LESS
+Line 17: INT [5]
+Line 17: RPAR
+Line 17: LACC
+Line 18: ID [r]
+Line 18: ASSIGN
+Line 18: ID [r]
+Line 18: MUL
+Line 18: ID [i]
+Line 18: SEMICOLON
+Line 19: ID [i]
+Line 19: ASSIGN
+Line 19: ID [i]
+Line 19: ADD
+Line 19: INT [1]
+Line 19: SEMICOLON
+Line 20: RACC
+Line 21: ID [put_i]
+Line 21: LPAR
+Line 21: ID [r]
+Line 21: RPAR
+Line 21: SEMICOLON
+Line 22: RACC
+Line 23: END

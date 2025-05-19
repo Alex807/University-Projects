@@ -141,7 +141,10 @@ Token *tokenize(const char *pch) {
                     tk->text = text;
                     tk->d = atof(text); // atof will correctly convert .X to 0.X
                 
-                } else { // Standalone dot NOT allowed 
+                } else if (isalpha(pch[1]) || pch[1] == '_') { // Handle struct field access
+                    addTk(DOT);
+                    pch++;
+                } else { // Invalid usage of dot
                     err("Invalid character: %c (%d)", *pch, *pch);
                 }
                 break;
@@ -302,7 +305,7 @@ Token *tokenize(const char *pch) {
                     err("Invalid character: %c (%d)", *pch, *pch);
                 }
         }
-    
+     
     }
 }
 

@@ -1,6 +1,6 @@
 import java.util.*;
 
-interface Box { //MAFIA-MEMBER (Base type ce este derivat de ambele clase)
+interface Box { //MAFIA-MEMBER (Base type ce este derivat de leaf/compose)
 	double calculatePrice();
 }//aici definesti operatii COMUNE pe complex/leaf BOX
 
@@ -23,7 +23,7 @@ class CompositeBox implements Box{ //MAFIA-HEAD contine alte obiecte in interior
 
 abstract class Product implements Box { //elem.FRUNZA continut de BOX ce face computatia(doar returneaza PRICE)
 	private final String title; 
-	private final double price;
+	private final double price; //FINAL pentru o singura atribuire
 	
 	public Product(String title, double price) { 
 		this.title = title; 
@@ -35,8 +35,8 @@ abstract class Product implements Box { //elem.FRUNZA continut de BOX ce face co
 	}
 }
 
-class Book extends Product { //frunza CONCRETA
-	public Book(String title, double price) { 
+class Tenis extends Product { //frunza CONCRETA
+	public Tenis(String title, double price) { 
 		super(title, price);
 	}
 }

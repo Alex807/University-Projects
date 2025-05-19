@@ -1,0 +1,131 @@
+Line 1: TYPE_INT
+Line 1: ID [x]
+Line 1: SEMICOLON
+Line 2: TYPE_CHAR
+Line 2: ID [y]
+Line 2: SEMICOLON
+Line 3: TYPE_DOUBLE
+Line 3: ID [z]
+Line 3: SEMICOLON
+Line 4: TYPE_DOUBLE
+Line 4: ID [p]
+Line 4: LBRACKET
+Line 4: INT [100]
+Line 4: RBRACKET
+Line 4: SEMICOLON
+Line 6: STRUCT
+Line 6: ID [S1]
+Line 6: LACC
+Line 7: TYPE_INT
+Line 7: ID [i]
+Line 7: SEMICOLON
+Line 8: TYPE_DOUBLE
+Line 8: ID [d]
+Line 8: LBRACKET
+Line 8: INT [2]
+Line 8: RBRACKET
+Line 8: SEMICOLON
+Line 9: TYPE_CHAR
+Line 9: ID [x]
+Line 9: SEMICOLON
+Line 10: RACC
+Line 10: SEMICOLON
+Line 11: STRUCT
+Line 11: ID [S1]
+Line 11: ID [p1]
+Line 11: SEMICOLON
+Line 12: STRUCT
+Line 12: ID [S1]
+Line 12: ID [vp]
+Line 12: LBRACKET
+Line 12: INT [10]
+Line 12: RBRACKET
+Line 12: SEMICOLON
+Line 14: TYPE_DOUBLE
+Line 14: ID [sum]
+Line 14: LPAR
+Line 14: TYPE_DOUBLE
+Line 14: ID [x]
+Line 14: LBRACKET
+Line 14: INT [5]
+Line 14: RBRACKET
+Line 14: COMMA
+Line 14: TYPE_INT
+Line 14: ID [n]
+Line 14: RPAR
+Line 14: LACC
+Line 15: TYPE_DOUBLE
+Line 15: ID [r]
+Line 15: SEMICOLON
+Line 16: TYPE_INT
+Line 16: ID [i]
+Line 16: SEMICOLON
+Line 17: ID [r]
+Line 17: ASSIGN
+Line 17: INT [0]
+Line 17: SEMICOLON
+Line 18: ID [i]
+Line 18: ASSIGN
+Line 18: INT [0]
+Line 18: SEMICOLON
+Line 19: WHILE
+Line 19: LPAR
+Line 19: ID [i]
+Line 19: LESS
+Line 19: ID [n]
+Line 19: RPAR
+Line 19: LACC
+Line 20: TYPE_DOUBLE
+Line 20: ID [n]
+Line 20: SEMICOLON
+Line 21: ID [n]
+Line 21: ASSIGN
+Line 21: ID [x]
+Line 21: LBRACKET
+Line 21: ID [i]
+Line 21: RBRACKET
+Line 21: SEMICOLON
+Line 22: ID [r]
+Line 22: ASSIGN
+Line 22: ID [r]
+Line 22: ADD
+Line 22: ID [n]
+Line 22: SEMICOLON
+Line 23: ID [i]
+Line 23: ASSIGN
+Line 23: ID [i]
+Line 23: ADD
+Line 23: INT [1]
+Line 23: SEMICOLON
+Line 24: RACC
+Line 25: RETURN
+Line 25: ID [r]
+Line 25: SEMICOLON
+Line 26: RACC
+Line 28: STRUCT
+Line 28: ID [S1]
+Line 28: LACC
+Line 29: TYPE_INT
+Line 29: ID [i]
+Line 29: SEMICOLON
+Line 30: TYPE_DOUBLE
+Line 30: ID [d]
+Line 30: LBRACKET
+Line 30: INT [2]
+Line 30: RBRACKET
+Line 30: SEMICOLON
+Line 31: TYPE_CHAR
+Line 31: ID [x]
+Line 31: SEMICOLON
+Line 32: RACC
+Line 32: SEMICOLON
+Line 34: VOID
+Line 34: ID [f]
+Line 34: LPAR
+Line 34: STRUCT
+Line 34: ID [S1]
+Line 34: ID [p]
+Line 34: RPAR
+Line 34: LACC
+Line 35: RACC
+Line 36: END

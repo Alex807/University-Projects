@@ -13,7 +13,7 @@ void printBanner() {
     printf("\n");
     printf("\t\t\t\t\t+-------------------------------------------------------+\n");
     printf("\t\t\t\t\t|                                                       |\n");
-    printf("\t\t\t\t\t|                    LEXICAL ANALYZER                   |\n");
+    printf("\t\t\t\t\t|                      AtomC COMPILER                   |\n");
     printf("\t\t\t\t\t|                                                       |\n");
     printf("\t\t\t\t\t+-------------------------------------------------------+\n");
     printf("\n");
@@ -141,9 +141,41 @@ int main() {
     printf("[SUCCESS] Lexical analysis done successfully!\n\n");
 
 
-    //Sintactic Analizer
-    printf("[INFO] Starting sintactic analyzer...\n"); //Parse the tokens(Sintactic analysis)
-    parse(tokens);
+    //Syntactic, domain and type analyzer are implemented in "parser.c" functions, see the 'docs' files for documentation 
+    printf("[INFO] Starting sintactic + domain analyzer...\n\n"); //Parse the tokens  
+    
+    
+    pushDomain();  // Create global domain
+    // vmInit();// Initialize VM before parsing
+
+    parse(tokens); //PARSER call
+    
+    showDomain(symTable, "global"); //for DOMAIN analysis
+
+
+    // printf("\n[INFO] Running VM tests programs...\n\n");
+    
+    // // //Run int test program
+    // printf("\t # Running integer test program:\n");
+    // Instr *intCode = genTestProgram();
+    // run(intCode);
+    
+    // // //Run double test program
+    // printf("\n\n\n\t # Running double test program:\n");
+    // Instr *doubleCode = genTestProgram_Double();  // Create a new function for double
+    // run(doubleCode);
+
+    // printf("\n[INFO] Running code-generation test...\n\n");
+
+    // Symbol *symMain=findSymbolInDomain(symTable,"main");
+    // if(!symMain)err("missing main function");
+    // Instr *entryCode=NULL;
+    // addInstr(&entryCode,OP_CALL)->arg.instr=symMain->fn.instr;
+    // addInstr(&entryCode,OP_HALT);
+    // run(entryCode);
+
+    dropDomain();  // Clean up
+
     
     printf("\n[INFO] Cleaning up...\n"); //Clean up
     free(source);

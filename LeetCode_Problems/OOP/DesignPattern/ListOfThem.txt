@@ -6,10 +6,10 @@
 
 3. Builder pattern = folosim pentru a creea mai usor obiecte si sa nu avem extrem de multe args in constructor(putem folosi DIRECTORYS pentru a retine proceduri de creeare)
 
-4. Factory Method = slabeste CUPLAREA intre codul necesar creeri unui obiect si codul ce prelucreaza acel tip de obiect(fol. cand NU stii exact ce TYPE au obiectele ce le prelucrezi in cod
-			folosit pentru a creea instante al subclaselor pe baza unui parametru string TYPE
+4. Factory Method =slabeste CUPLAREA intre codul necesar creeri unui obiect si codul ce prelucreaza acel tip de obiect(fol. cand NU stii exact ce TYPE au obiectele ce le prelucrezi in cod)
 
 *  Abstract Factory = folosim cand codul nostru trb. sa lucreze cu o MARE VARIETATE de tipuri interconectate(ex. cu diferite tipuri de restaurante ce au dif. tipuri de produse)
+
 
 (STRUCTURALE) 
 1. Composite = folosit pentru a creea STRUCTURI ARBORESCENTE ce sunt tratate ca obiecte de sine statatoare(delega actiunea catre lista de elem. componente)
@@ -26,11 +26,13 @@
 *  Facade = o noua clasa in care facem in spate operatiile necesare pentru a realiza actiuni pe un tip de obiecte(simplificare user interface) 
 		(aplicarea unei MASTI ce ascunde complexitatea operatiilor din spate lasand user sa fol. doar principalele instructiuni)
 
+
 (COMPORTAMENT) 
 1. Chain_of_Responsability = transforma un comportament PARTICULAR intr-un OBIECT de sine statator numit HANDLER(paseaza task-ul daca nu il poate face)
 				contine un atribut de tip BASE(NEXT) si un atribut PROTECTED(succeeded) pe care il apeleaza daca nodul curent nu poate gestiona situatia(next.handle())
 
-2. Command Pattern = transforma o metoda/task sau un request/comportament intr-un OBIECT ce are in interiorul sau toate datele sa fie executat(COMANDA este continuta drept ATRIBUT in clasa 		unde vrem sa o executam) --> COMPORTAMENTE REPETATE in cadrul programului
+2. Command Pattern = transforma o metoda/task sau un request/comportament intr-un OBIECT ce are in interiorul sau toate datele sa fie executat
+			(COMANDA este continuta drept ATRIBUT in clasa unde vrem sa o executam) --> COMPORTAMENTE REPETATE in cadrul programului
 
 3. Observer = folosit pentru comunicarea intre obiecte atunci cand starea obiectului SUBIECT este modificata(SUBIECT-statieMeteo, Ziar, PostStiri etc; CONCRETE_OBSERVER -> Alex, Mihai (cine e interesat) SUBIECT(cel ce este analizat si anuntati obs)  OBSERVER(cel ce reactioneaza la schimbarea SUB.)
      !!  SUBIECTUL contine o lista de observers  !!

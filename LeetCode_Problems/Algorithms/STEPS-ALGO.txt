@@ -4,21 +4,25 @@ Pasi in abordare sub ALGORITMI
 
 	[REQ1] --> 20 min 
 1. citeste de 5 ORI cu atentie cerinta si vezi ce vor(cauta cuv. cheie) 
-2. ruleaza PE HARTIE algoritmul tau si tine seama de cum se actualizeaza/modif param si variabilele 
+2. ruleaza PE HARTIE algoritmul tau si tine seama de cum se actualizeaza/modif param si variabilele !!!#!!
 3. NU  MODIFICA semnatura metodei date de catre ei(nu adauga param in plus, vezi cum trb dedusi aceia) 
 4. foloseste cat mai putine variabile/contori AUXILIARY (foloseste-te de I /% si de copiere colectii System.copy) 
 5. AI GRIJA sa actualizezi toate variabilele/contorii si sa folosesti FOR cu I daca trb sa sari pozitii initiale
 
 	!!!! Daca NU STII ce size sa aiba un ARRAY[int] foloseste LIST<INTEGER> si la final faci conversia cu STREAMS !!!!!!!!
-(  <lista> .stream()..mapToInt(Integer::intValue).toArray(); ) 
+(  <nume_lista> .stream()..mapToInt(Integer::intValue).toArray(); ) 
 
 ----vezi sub NETROM pt inspiratie, foloseste cat mai putine variabile(daca poti) 
-----SYSTEM>arrayCopy(vezi pt a copia array eficient)
+----SYSTEM.arrayCopy(vezi pt a copia array eficient)
+
 
 
 
 	[REQ2] --> 25 min 
 1. citeste de 5 ORI cu atentie cerinta si vezi ce vor(cauta cuv. cheie) 
-2. ruleaza PE HARTIE algoritmul tau si tine seama de cum se actualizeaza/modif param si variabilele 
+2. ruleaza PE HARTIE algoritmul tau si tine seama de cum se actualizeaza/modif param si variabilele  !!!#!!
 3. NU  MODIFICA semnatura metodei date de catre ei(nu adauga param in plus, vezi cum trb dedusi aceia) 
 4. foloseste cat mai putine variabile/contori AUXILIARY (foloseste-te de I /% si de copiere colectii System.copy) 
+5. AI GRIJA sa actualizezi toate variabilele/contorii si sa folosesti FOR cu I daca trb sa sari pozitii initiale
+
+----vezi sub NETROM pt inspiratie, foloseste cat mai putine variabile(daca poti) 

@@ -12,12 +12,11 @@ Pasi in abordare sub OOP
 
  			##  NU TE COMPLICA CU LUCRURI INUTILE, TERMINA TOT TESTUL ##
 
-5. in clasa abstracta ce ai niste param si ai o metoda cu ei, aplica TEMPLATE METHOD si adauga metode abstracte pe care le faci override in subclase cu param. lor specifici 
-6. in clasa in care tii obiecte de tipul BASE si le prelucrezi, spune in comentarii ca folosesti STRATEGY PATTERN 
-7. SA APELEZI CONSTRUCTOR { super(args) } pentru a instantia atributele superclasei(si cls ABSTRACTA trb sa aiba constructor PROTECTED) 
+6. in clasa in care tii obiecte de tipul BASE si le prelucrezi (ai un List<BASE_type> ), spune in comentarii ca folosesti STRATEGY PATTERN 
+7. SA APELEZI CONSTRUCTOR { super(args) } pentru a instantia atributele superclasei(pentru cls ABSTRACTA sa aiba constructor PROTECTED !!!!! 
 8. foloseste STRING.BUILDER si STRING.FORMAT cand ai nevoie
 
-!!CAUTA COD DUPLICAT sau daca poti aplica un alt DP din lista!!
+	!!CAUTA COD DUPLICAT sau daca poti aplica un alt DP din lista!!
 
 ***DACA AI TIMP doar**** la FINAL poti face un factory pattern
 
@@ -30,7 +29,7 @@ Pasi in abordare sub OOP
 
 3. acm ca stii DP necesar, lucreaza in permanenta cu o diagrama UML in fata 
 4. respecta DENUMIRI(ale lor si cele standard pt. metodele din DP + exemplele date DE EI IN CERINTA  
-5. fa-ti o SCHITA pe foaie pentru claritate(ia-o pe cea de la DP folosit si pune clasele tale sa te verifici)
+5. fa-ti o SCHITA pe foaie pentru claritate(ia-o pe cea de la DP folosit si pune numele la clasele tale sa te verifici)
 
 	FINAL: ia codul din aplicatia lor si pune-l intr-un fisier si COMPILEAZA sa vezi daca ai uitat cv(vezi constructori cu SUPER in subclase)
 

@@ -38,7 +38,7 @@ class WhatsAppDecorator extends BaseNotifierDecorator { //tip CONCRET de decorat
 		//OBLIGATORIU sa o pui mereu inainte sau dupa logica din obiectul curent 
 		
 		System.out.println("Sending " + msg + " by WHATSAPP");
-	}
+	}  //ACTIUNEA specifica obiectului DECORAT(acest mesaj de sus)
 }
 
 class FacebookDecorator extends BaseNotifierDecorator { //tip CONCRET de decorator-element
@@ -51,7 +51,7 @@ class FacebookDecorator extends BaseNotifierDecorator { //tip CONCRET de decorat
 		//OBLIGATORIU sa o pui mereu inainte sau dupa logica din obiectul curent 
 		
 		System.out.println("Sending " + msg + " by FACEBOOK");
-	}
+	}   //ACTIUNEA specifica obiectului DECORAT(acest mesaj de sus)
 }
 
 //CAZUL in care nu trm un LEAF-ELEM este tratat prin constructorul lui BASE-NOTIF-DECORATOR 
@@ -62,5 +62,5 @@ public class Main {
 		new FacebookDecorator( 
 			new WhatsAppDecorator( 
 				new Notifier ("HELLO$"))).sendNotif("from Alex"); 
-	}
+	}//executia lor depinde de in ce ordine le pui in metoda sendNotif din obiectele DECORATOR
 }

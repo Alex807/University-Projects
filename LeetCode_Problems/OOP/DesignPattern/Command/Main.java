@@ -27,10 +27,14 @@ class Kitchen extends Room {
 }
 
 class Bedroom extends Room { 
-	private FloorLamp floorLamp;
+	private FloorLamp floorLamp; //lumina extra(o controlezi prin .executeCommand() pe acest ATRIBUT)
 	
 	public Bedroom() { 
 		this.floorLamp = new FloorLamp();
+	}
+	
+	public void switchFloorLampLight() { 
+		floorLamp.executeCommand();
 	}
 }
 
