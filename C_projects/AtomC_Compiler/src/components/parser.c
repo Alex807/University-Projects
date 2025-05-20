@@ -113,7 +113,7 @@ bool arrayDecl(Type *t) {
 }
 
 bool expr(Ret *r) {
-    // Pass the Ret structure to exprAssign to collect type information
+    // pass the Ret structure to exprAssign to collect type information
     if(exprAssign(r)){
         return true;
     }
@@ -122,85 +122,95 @@ bool expr(Ret *r) {
 
 // exprPrimary: ID ( LPAR ( expr ( COMMA expr )* )? RPAR )? | INT | DOUBLE | CHAR | STRING | LPAR expr RPAR
 bool exprPrimary(Ret *r) {
+    Token *start = iTk;  // Save initial position
+
+    // Handle identifiers
     if(consume(ID)) {
-        Token *tkName = consumedTk;  // store the ID token
-      
-        // Check if ID exists in symbol table
+        Token *tkName = consumedTk;
         Symbol *s = findSymbol(tkName->text);
         if(!s) {
             tkerr("undefined id: %s", tkName->text);
+            return false;
         }
-      
+
         // Function call
         if(consume(LPAR)) {
-            // Check if it's actually a function
             if(s->kind != SK_FN) {
                 tkerr("only a function can be called");
+                return false;
             }
-          
-            Ret rArg;  // for argument type checking
-            Symbol *param = s->fn.params;  // current parameter being checked
-          
-            // Process arguments
-            if(expr(&rArg)) {  // first argument
-                // Check first argument
+
+            Ret rArg;
+            Symbol *param = s->fn.params;
+            bool hasArgs = false;
+
+            // Process arguments if any
+            if(iTk->code != RPAR) {  // Check if there are arguments
+                hasArgs = true;
+                if(!expr(&rArg)) {
+                    tkerr("invalid function argument");
+                    return false;
+                }
                 if(!param) {
                     tkerr("too many arguments in function call");
+                    return false;
                 }
                 if(!convTo(&rArg.type, &param->type)) {
-                    tkerr("in call, cannot convert the argument type to the parameter type");
+                    tkerr("in call, cannot convert argument type to parameter type");
+                    return false;
                 }
                 param = param->next;
-              
+
                 // Process remaining arguments
-                for(;;) {
-                    if(consume(COMMA)) {
-                        if(expr(&rArg)) {
-                            // Check each argument
-                            if(!param) {
-                                tkerr("too many arguments in function call");
-                            }
-                            if(!convTo(&rArg.type, &param->type)) {
-                                tkerr("in call, cannot convert the argument type to the parameter type");
-                            }
-                            param = param->next;
-                            continue;
-                        }
-                        tkerr("Invalid expression after ,");
+                while(consume(COMMA)) {
+                    if(!expr(&rArg)) {
+                        tkerr("invalid expression after comma");
+                        return false;
                     }
-                    break;
+                    if(!param) {
+                        tkerr("too many arguments in function call");
+                        return false;
+                    }
+                    if(!convTo(&rArg.type, &param->type)) {
+                        tkerr("in call, cannot convert argument type to parameter type");
+                        return false;
+                    }
+                    param = param->next;
                 }
             }
-          
-            if(consume(RPAR)) {
-                // Check if we have unused parameters
-                if(param) {
-                    tkerr("too few arguments in function call");
-                }
-              
-                // Set return type info
-                r->type = s->type;
-                r->lval = false;
-                r->ct = true;
-              
-                return true;
+
+            if(!consume(RPAR)) {
+                tkerr("missing ) in function call");
+                return false;
             }
-            tkerr("Missing )");
+
+            // Check if we have unused required parameters
+            if(param && hasArgs) {
+                tkerr("too few arguments in function call");
+                return false;
+            }
+
+            // Set return type info
+            r->type = s->type;
+            r->lval = false;
+            r->ct = true;
+            return true;
+
         } else {
             // Non-function identifier
             if(s->kind == SK_FN) {
                 tkerr("a function can only be called");
+                return false;
             }
-          
+
             // Set identifier type info
             r->type = s->type;
             r->lval = true;
-            r->ct = s->type.n >= 0;  // constant if it's an array
-          
+            r->ct = s->type.n >= 0;
             return true;
         }
     }
-  
+
     // Constants
     if(consume(CONST_INT)) {
         *r = (Ret){{TB_INT, NULL, -1}, false, true};
@@ -215,21 +225,32 @@ bool exprPrimary(Ret *r) {
         return true;
     }
     if(consume(STRING)) {
-        *r = (Ret){{TB_CHAR, NULL, 0}, false, true};  // array of char
+        *r = (Ret){{TB_CHAR, NULL, 0}, false, true};
         return true;
     }
-  
+
     // Parenthesized expression
     if(consume(LPAR)) {
-        if(expr(r)) {  // type info will be set by expr
-            if(consume(RPAR)) {
-                return true;
-            }
-            tkerr("Missing )");
+        // Check if it might be a cast
+        Token *ahead = iTk;
+        if(ahead->code == TYPE_INT || ahead->code == TYPE_DOUBLE || 
+           ahead->code == TYPE_CHAR || ahead->code == STRUCT) {
+            iTk = start;  // Restore position
+            return false;  // Let exprCast handle it
         }
-        tkerr("Invalid expression after (");
+
+        // Regular parenthesized expression
+        if(!expr(r)) {
+            tkerr("invalid expression after (");
+            return false;
+        }
+        if(!consume(RPAR)) {
+            tkerr("missing )");
+            return false;
+        }
+        return true;
     }
-  
+
     return false;
 }
 
@@ -336,59 +357,49 @@ bool exprUnary(Ret *r) {
 bool exprCast(Ret *r) {
     Token *start = iTk;
 
-    // Try exprUnary first
-    if(exprUnary(r)) {
-        return true;
-    }
-
-    // Try cast operation
+    // Try cast operation first
     if(consume(LPAR)) {
-        Type t;       // type to cast to
-        Ret op;      // operand being cast
-      
+        Type t;
         if(typeBase(&t)) {
-            // Optional array declaration
-            arrayDecl(&t);
-          
+            arrayDecl(&t);  // Optional array declaration
+            
             if(consume(RPAR)) {
-                if(exprCast(&op)) {  // get the operand's type info
-                    // Type analysis for cast operation
-                  
-                    // Check if casting to struct
-                    if(t.tb == TB_STRUCT) {
-                        tkerr("cannot convert to a struct type");
+                Ret op;
+                if(exprCast(&op)) {
+                    // Use convTo to check if cast is valid
+                    if(!convTo(&op.type, &t)) {
+                        if(t.tb == TB_STRUCT) {
+                            tkerr("cannot convert to a struct type");
+                        } else if(op.type.tb == TB_STRUCT) {
+                            tkerr("cannot convert a struct");
+                        } else if(op.type.n >= 0 && t.n < 0) {
+                            tkerr("cannot convert array to non-array");
+                        } else if(op.type.n < 0 && t.n >= 0) {
+                            tkerr("cannot convert non-array to array");
+                        } else {
+                            tkerr("invalid type cast");
+                        }
+                        return false;
                     }
-                  
-                    // Check if casting from struct
-                    if(op.type.tb == TB_STRUCT) {
-                        tkerr("cannot convert a struct");
-                    }
-                  
-                    // Check array to non-array conversion
-                    if(op.type.n >= 0 && t.n < 0) {
-                        tkerr("an array can be converted only to another array");
-                    }
-                  
-                    // Check scalar to array conversion
-                    if(op.type.n < 0 && t.n >= 0) {
-                        tkerr("a scalar can be converted only to another scalar");
-                    }
-                  
-                    // Set the result type to the cast type
+
+                    // Valid cast, set result
                     r->type = t;
                     r->lval = false;
-                    r->ct = true;
-                  
+                    r->ct = op.ct;
+                    
                     return true;
                 }
-            } else {
-                tkerr("Missing \')\' in cast operation");
+                tkerr("invalid expression after cast");
+                return false;
             }
+            tkerr("missing ) in cast");
+            return false;
         }
+        iTk = start;
     }
-  
-    iTk = start;
-    return false;
+
+    // If not a cast, try exprUnary
+    return exprUnary(r);
 }
 
 // exprMul: exprMul (MUL | DIV) exprCast | exprCast

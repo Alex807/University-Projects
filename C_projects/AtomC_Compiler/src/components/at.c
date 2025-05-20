@@ -6,7 +6,7 @@ bool canBeScalar(Ret* r){
 	if(t->n>=0)return false;
 	if(t->tb==TB_VOID)return false;
 	return true;
-	}
+}
 
 bool convTo(Type *src,Type *dst){
 	// the pointers (arrays) can be converted one to another, but in nothing else
@@ -74,4 +74,4 @@ Symbol *findSymbolInList(Symbol *list,const char *name){
 			if(!strcmp(s->name,name))return s;
 		}
 	return NULL;
-	}
+}
