@@ -1,0 +1,16 @@
+	XML Data Binding Generator
+
+Overview
+A simplified XML Data Binding tool that generates data classes from XML schema files. This project implements a Schema-to-Class generator that automates the data transfer between objects and XML documents, eliminating the need for manual XML parsing code.
+
+Original Assignment Source: https://staff.cs.upt.ro/~ioana/arhit-engl/curs/t4b.html
+
+Features
+Core Functionality
+Schema-to-class generation from XML schema files
+Support multiple-level nested xs:element of xs:complexType
+Public member generation in target classes 
+Generation option for set/get methods
+Compatible with multiple XML parsing libraries (SAX, DOM, StAX)
+No external XML Data Binding framework dependencies
+Custom XML Data Binding library (MyXMLDataBinder) with marshaling/unmarshaling capabilities

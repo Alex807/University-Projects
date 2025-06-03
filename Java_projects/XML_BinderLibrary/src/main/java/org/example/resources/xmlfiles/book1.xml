@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bookshop>
+  <book>
+    <author>
+      <name>John</name>
+      <surname>Doe</surname>
+      <cv>Somewhere</cv>
+    </author>
+    <title>The History of Tralology</title>
+    <price>150.0</price>
+    <description>A comprehensive guide to Tralology</description>
+    <id>B1</id>
+  </book>
+  <book>
+    <author>
+      <name>Alice</name>
+      <surname>Alisson</surname>
+      <cv>Did great things</cv>
+    </author>
+    <author>
+      <name>Bob</name>
+      <surname>Bobson</surname>
+      <cv>Biggest expert in barbology</cv>
+    </author>
+    <author>
+      <name>Cat</name>
+      <surname>Carson</surname>
+      <cv>Member of Academy</cv>
+    </author>
+    <title>Big enciclopedy of barbology</title>
+    <price>150.0</price>
+    <description>The most up to date enciclopedic work on barbology</description>
+    <id>B2</id>
+  </book>
+  <book>
+    <author>
+      <name>Rick</name>
+      <surname>Rockson</surname>
+      <cv>From Rover</cv>
+    </author>
+    <title>Write great code in 7 days</title>
+    <price>150.0</price>
+    <description>Best course ever</description>
+    <id>B3</id>
+  </book>
+  <book>
+    <author>
+      <name>John</name>
+      <surname>Doe</surname>
+      <cv>Senior Java Developer</cv>
+    </author>
+    <author>
+      <name>Jane</name>
+      <surname>Smith</surname>
+      <cv>Software Architect</cv>
+    </author>
+    <title>Java Programming</title>
+    <price>29.99</price>
+    <description>A comprehensive guide to Java</description>
+    <id>B4</id>
+  </book>
+  <book>
+    <author>
+      <name>Bob</name>
+      <surname>Wilson</surname>
+      <cv>Software Engineer</cv>
+    </author>
+    <title>Design Patterns</title>
+    <price>34.99</price>
+    <description>Essential design patterns in Java</description>
+    <id>B5</id>
+  </book>
+  <book>
+    <author>
+      <name>John</name>
+      <surname>Doe</surname>
+      <cv>Senior Java Developer</cv>
+    </author>
+    <author>
+      <name>Jane</name>
+      <surname>Smith</surname>
+      <cv>Software Architect</cv>
+    </author>
+    <title>Java Programming</title>
+    <price>29.99</price>
+    <description>A comprehensive guide to Java</description>
+    <id>B6</id>
+  </book>
+  <book>
+    <author>
+      <name>Bob</name>
+      <surname>Wilson</surname>
+      <cv>Software Engineer</cv>
+    </author>
+    <title>Design Patterns</title>
+    <price>34.99</price>
+    <description>Essential design patterns in Java</description>
+    <id>B7</id>
+  </book>
+  <book>
+    <author>
+      <name>John</name>
+      <surname>Doe</surname>
+      <cv>Senior Java Developer</cv>
+    </author>
+    <author>
+      <name>Jane</name>
+      <surname>Smith</surname>
+      <cv>Software Architect</cv>
+    </author>
+    <title>Java Programming</title>
+    <price>29.99</price>
+    <description>A comprehensive guide to Java</description>
+    <id>B8</id>
+  </book>
+</bookshop>

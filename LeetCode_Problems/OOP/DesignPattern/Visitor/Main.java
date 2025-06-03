@@ -24,7 +24,7 @@ class Resident extends Client{
 	}
 	
 	public void accept(Visitor visitor) { //in fiecare subclasa
-		visitor.visitResident(this);
+		visitor.visitResident(this); //delegam alegerea feature-ului obiectului in sine, cel ce va fi prelucrat
 	}
 }
 

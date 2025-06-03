@@ -172,8 +172,7 @@ int main() {
     // Instr *entryCode=NULL;
     // addInstr(&entryCode,OP_CALL)->arg.instr=symMain->fn.instr;
     // addInstr(&entryCode,OP_HALT);
-    // run(entryCode);
-
+    // run(entryCode); //make sure to set-up the file for the code gen as input
     dropDomain();  // Clean up
 
     

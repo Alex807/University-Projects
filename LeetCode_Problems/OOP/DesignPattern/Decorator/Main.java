@@ -16,7 +16,7 @@ class Notifier implements INotifier{ //LEAF-ELEMENT(el NU contine in componenta 
 	}
 }
 
-abstract class BaseNotifierDecorator implements INotifier{ //DECORATOR-ELEMENT (tipul abstract pentru a combina diverse configuratii ale subclaselor ACESTEIA)
+abstract class BaseNotifierDecorator implements INotifier{ //DECORATOR-ELEMENT tp de baza abstract(tipul abstract pentru a combina diverse configuratii ale subclaselor ACESTEIA)
 	private final INotifier wrapped;  //MEMBRUL ce aduce functionalitate EXTRA celei a obiectului curent din subclase
 	
 	public BaseNotifierDecorator(INotifier wrapped) { 
