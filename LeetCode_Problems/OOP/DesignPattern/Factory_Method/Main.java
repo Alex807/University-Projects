@@ -71,7 +71,7 @@ class BurgerFactory {
 
 	public abstract Burger createBurger(int kcal); //FACTORY-METHOD ce va fi implementat in SUBCLASE
 }
-//diferenta FUNDAMENTALA intre versiunea de sus este ca aici creem cate UN ALT SUBTIP
+//diferenta FUNDAMENTALA intre versiunea de sus este ca aici delegam cate UN ALT SUBTIP
 // ce va prelucra obiectele sa le creeze el, fara IF si clasa FACTORY
 
 class BeefBurgerRestaurant extends Restaurant {
