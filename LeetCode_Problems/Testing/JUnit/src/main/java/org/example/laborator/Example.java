@@ -1,6 +1,6 @@
-package org.example;
+package org.example.laborator;
 
-public class Function {
+public class Example {
     public int calculate(int a, int b) {
         if (b == 0) {
             return -1;
