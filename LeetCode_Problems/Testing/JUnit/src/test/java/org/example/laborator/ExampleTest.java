@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ExampleTest {
 
-    private Example function = null;
+    private Example function;
 
     @BeforeEach
     void createInstance() {

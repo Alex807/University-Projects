@@ -4,15 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="746630bb-48b9-42a8-a591-bfcd7d0bc232" name="Changes" comment="" />
+    <list default="true" id="746630bb-48b9-42a8-a591-bfcd7d0bc232" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../JUnit/PropunereTest/src/test/java/org/example/BikeTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JUnit/PropunereTest/src/test/java/org/example/RunTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JUnit/PropunereTest/src/test/java/org/example/SwimTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JUnit/src/main/java/org/example/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JUnit/src/main/java/org/example/laborator/Exercise2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JUnit/src/main/java/org/example/laborator/Exercise3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JUnit/src/test/java/org/example/laborator/Exercise2Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JUnit/src/test/java/org/example/laborator/Exercise3Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JUnit/src/test/java/org/example/laborator/ExampleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../JUnit/src/test/java/org/example/laborator/ExampleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JUnit/src/test/java/org/example/laborator/Exercise1Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/../JUnit/src/test/java/org/example/laborator/Exercise1Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="350XIwbyd8WZLS5V9BPkChT1rC1" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -21,7 +43,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/Github/University-Projects/LeetCode_Problems/Testing/Mocking/exemplu-lab",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -43,6 +71,8 @@
       <option name="presentableId" value="Default" />
       <updated>1762247887627</updated>
       <workItem from="1762247888829" duration="4000" />
+      <workItem from="1762409881144" duration="17000" />
+      <workItem from="1762409926149" duration="1702000" />
     </task>
     <servers />
   </component>
