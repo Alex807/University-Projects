@@ -1,0 +1,3 @@
+/home/alexandru/PAOO/Tema3/build/CMakeFiles/executable.dir
+/home/alexandru/PAOO/Tema3/build/CMakeFiles/edit_cache.dir
+/home/alexandru/PAOO/Tema3/build/CMakeFiles/rebuild_cache.dir
