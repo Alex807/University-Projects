@@ -2,6 +2,7 @@ package com.example.stride.ui.theme
 
 import android.graphics.BitmapFactory
 import android.util.Base64
+import com.example.stride.R
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image

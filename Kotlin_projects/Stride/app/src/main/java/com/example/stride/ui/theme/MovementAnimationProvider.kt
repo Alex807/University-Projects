@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.stride.sensors.MovementMode
+import com.example.stride.R
 
 @Composable
 fun MovementAnimation(mode: MovementMode) {
