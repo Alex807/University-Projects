@@ -25,28 +25,16 @@ public class SeleniumTest {
 
     private static WebDriverManager webDriverManager;
 
-//    @BeforeAll
-//    static void beforeAll() {
-//        if (WebDriverManager.chromedriver().getBrowserPath().isPresent()) {
-//            webDriverManager = WebDriverManager.chromedriver();
-//        }
-//    }
-//
-//    @BeforeEach
-//    public void setup() {
-//        Assertions.assertNotNull(webDriverManager);
-//        webDriverManager.setup();
-//        webDriver = webDriverManager.create();
-//        webDriver.manage().timeouts().implicitlyWait(Duration.of(5, ChronoUnit.SECONDS));
-//
-//        /*
-//            I moved the actions here for clean code purposes, because we'll always use a single reference of it.
-//         */
-//        actions = new Actions(webDriver);
-//    }
+    @BeforeAll
+    static void beforeAll() {
+        if (WebDriverManager.chromedriver().getBrowserPath().isPresent()) {
+            webDriverManager = WebDriverManager.chromedriver();
+        }
+    }
 
     @BeforeEach
     public void setup() {
+        Assertions.assertNotNull(webDriverManager);
         webDriver = new ChromeDriver();
         webDriver.manage().timeouts().implicitlyWait(Duration.of(5, ChronoUnit.SECONDS));
         actions = new Actions(webDriver);
@@ -142,7 +130,7 @@ public class SeleniumTest {
         After logging in, add one item to the cart and make sure that the button got transformed into a "Remove" button
      */
     @Test
-    public void testAddToCartDisplaysRemoveButton() {
+    public void testAddToCartDisplaysRemoveButton() throws InterruptedException {
         webDriver.get("https://www.saucedemo.com/");
         login("standard_user", "secret_sauce");
 
@@ -163,6 +151,7 @@ public class SeleniumTest {
             number of selected products.
          */
         WebElement shoppingCartCounterCircle = webDriver.findElement(By.className("shopping_cart_badge"));
+        Thread.sleep(2000);
         Assertions.assertNotNull(shoppingCartCounterCircle);
         Assertions.assertEquals("3", shoppingCartCounterCircle.getText());
 
