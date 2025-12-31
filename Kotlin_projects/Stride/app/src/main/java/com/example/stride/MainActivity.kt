@@ -2,6 +2,7 @@ package com.example.stride
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -13,41 +14,54 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.stride.auth.UserPreferences
 import com.example.stride.ui.theme.LoginScreen
 import com.example.stride.ui.theme.RegisterScreen
-import com.example.stride.ui.theme.SmartMotionDetectorTheme
+import com.example.stride.ui.theme.StrideTheme
 import com.example.stride.viewmodel.AuthViewModel
 import com.example.stride.viewmodel.SensorViewModel
 import com.example.stride.viewmodel.SensorViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
+    private val notificationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Log.d("MainActivity", "Notification permission granted")
+        } else {
+            Log.w("MainActivity", "Notification permission denied")
+        }
+    }
+
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                startSensorsIfPermitted()
+                startSensorsIfNeeded()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                startSensorsIfPermitted()
+                startSensorsIfNeeded()
             }
             else -> {
-                // No location access granted
+                Log.w("MainActivity", "Location permission denied")
             }
         }
     }
 
     private var sensorViewModel: SensorViewModel? = null
-    private var sensorsStarted = false
+    private lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sensorsStarted = savedInstanceState?.getBoolean("sensorsStarted") ?: false
+        userPreferences = UserPreferences(applicationContext)
+
+        Log.d("MainActivity", "onCreate - isLoggedIn: ${userPreferences.isLoggedIn()}")
 
         setContent {
-            SmartMotionDetectorTheme {
+            StrideTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -88,17 +102,31 @@ class MainActivity : ComponentActivity() {
                                 factory = SensorViewModelFactory(application)
                             )
 
+                            val isTracking by vm.isTracking.collectAsState()
+
                             LaunchedEffect(vm) {
                                 sensorViewModel = vm
-                                if (sensorsStarted) {
-                                    Log.d("MainActivity", "Restarting sensors after config change")
+
+                                // Set initial foreground state
+                                vm.setAppInForeground(true)
+
+                                if (authViewModel.checkLoginStatus() && hasLocationPermission()) {
+                                    Log.d("MainActivity", "Starting sensors on main screen load")
                                     vm.startSensors()
                                 }
+                            }
+
+                            DisposableEffect(isTracking) {
+                                Log.d("MainActivity", "Tracking state changed: $isTracking")
+                                onDispose { }
                             }
 
                             Stage2Screen(
                                 viewModel = vm,
                                 onLogout = {
+                                    Log.d("MainActivity", "Logging out - stopping sensors")
+                                    vm.stopSensors()
+                                    userPreferences.setSensorsStarted(false)
                                     authViewModel.logout()
                                     currentScreen = "login"
                                 }
@@ -110,29 +138,94 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean("sensorsStarted", sensorsStarted)
-    }
-
     override fun onResume() {
         super.onResume()
-        if (sensorsStarted && hasLocationPermission()) {
-            Log.d("MainActivity", "onResume - restarting sensors")
-            sensorViewModel?.startSensors()
+
+        Log.d("MainActivity", "onResume - App in FOREGROUND")
+
+        // Notify ViewModel that app is in foreground (enable vibrations)
+        sensorViewModel?.setAppInForeground(true)
+
+        if (userPreferences.isLoggedIn() && hasLocationPermission()) {
+            sensorViewModel?.let { vm ->
+                Log.d("MainActivity", "onResume - restarting sensors")
+                vm.startSensors()
+            }
         }
     }
 
-    private fun checkAndRequestPermissions() {
-        if (!hasLocationPermission()) {
-            locationPermissionRequest.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
+    override fun onPause() {
+        super.onPause()
+
+        Log.d("MainActivity", "onPause - App in BACKGROUND")
+
+        // Notify ViewModel that app is in background (disable vibrations)
+        sensorViewModel?.setAppInForeground(false)
+
+        val isTracking = sensorViewModel?.isTracking?.value ?: false
+
+        if (isTracking) {
+            Log.d("MainActivity", "onPause - keeping sensors running (recording active)")
         } else {
-            startSensorsIfPermitted()
+            Log.d("MainActivity", "onPause - stopping sensors (no active recording)")
+            sensorViewModel?.stopSensors()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        Log.d("MainActivity", "onStop")
+
+        val isTracking = sensorViewModel?.isTracking?.value ?: false
+
+        if (!isTracking) {
+            Log.d("MainActivity", "onStop - stopping sensors (no active recording)")
+            sensorViewModel?.stopSensors()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.d("MainActivity", "onDestroy - isFinishing: $isFinishing")
+
+        if (isFinishing) {
+            val isTracking = sensorViewModel?.isTracking?.value ?: false
+            if (!isTracking) {
+                Log.d("MainActivity", "onDestroy - stopping sensors (activity finishing)")
+                sensorViewModel?.stopSensors()
+            }
+        }
+
+        sensorViewModel = null
+    }
+
+    private fun checkAndRequestPermissions() {
+        val permissions = mutableListOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+
+        // ADD NOTIFICATION PERMISSION FOR ANDROID 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+
+        val permissionsToRequest = permissions.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+
+        if (permissionsToRequest.isNotEmpty()) {
+            locationPermissionRequest.launch(permissionsToRequest.toTypedArray())
+        } else {
+            startSensorsIfNeeded()
         }
     }
 
@@ -147,11 +240,11 @@ class MainActivity : ComponentActivity() {
                 ) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun startSensorsIfPermitted() {
-        if (hasLocationPermission() && !sensorsStarted) {
-            Log.d("MainActivity", "Starting sensors for first time")
+    private fun startSensorsIfNeeded() {
+        if (hasLocationPermission() && userPreferences.isLoggedIn()) {
+            Log.d("MainActivity", "Starting sensors")
             sensorViewModel?.startSensors()
-            sensorsStarted = true
+            userPreferences.setSensorsStarted(true)
         }
     }
 }

@@ -32,6 +32,12 @@ class TrackingSession {
     private val _isTrackingFlow = MutableStateFlow(false)
     val isTrackingFlow: StateFlow<Boolean> = _isTrackingFlow
 
+    private var totalDistance: Double = 0.0
+    private var lastLocation: Location? = null
+
+    private var startLatitude: Double = 0.0
+    private var startLongitude: Double = 0.0
+
     fun startTracking() {
         if (isTracking) return
 
@@ -42,6 +48,12 @@ class TrackingSession {
         lastStableSpeed = 0.0
         lastStableSpeedTime = 0
 
+        totalDistance = 0.0
+        lastLocation = null
+
+        startLatitude = 0.0
+        startLongitude = 0.0
+
         _isTrackingFlow.value = true
         Log.d("TrackingSession", "Session started at $startTimestamp")
     }
@@ -50,6 +62,22 @@ class TrackingSession {
         if (!isTracking) return
 
         val currentTime = System.currentTimeMillis()
+
+        if (startLatitude == 0.0 && startLongitude == 0.0) {
+            startLatitude = location.latitude
+            startLongitude = location.longitude
+            Log.d("TrackingSession", "Start location captured: $startLatitude, $startLongitude")
+        }
+
+        // NEW: Calculate distance from last location
+        if (lastLocation != null) {
+            val distance = lastLocation!!.distanceTo(location).toDouble()
+            // Only add distance if it's reasonable (not a GPS jump)
+            if (distance < 100) { // Max 100 meters between updates
+                totalDistance += distance
+            }
+        }
+        lastLocation = location
 
         // Check if speed is stable for at least 1 second
         val speedDifference = Math.abs(speed - lastStableSpeed)
@@ -73,13 +101,21 @@ class TrackingSession {
                 )
                 speedSamples.add(speedSample)
 
-                Log.d("TrackingSession", "Recorded: Lat=${location.latitude}, Lon=${location.longitude}, Speed=$speed")
+                Log.d("TrackingSession", "Recorded: Lat=${location.latitude}, Lon=${location.longitude}, Speed=$speed, Distance=$totalDistance")
             }
         } else {
             // Speed changed significantly, reset stability timer
             lastStableSpeed = speed
             lastStableSpeedTime = currentTime
         }
+    }
+
+    fun getStartLocation(): Pair<Double, Double> {
+        return Pair(startLatitude, startLongitude)
+    }
+
+    fun getCurrentDistance(): Double {
+        return totalDistance
     }
 
     fun stopTracking(): SessionResult? {
@@ -104,7 +140,7 @@ class TrackingSession {
         // Determine movement mode based on average speed
         val movementMode = classifyMovementMode(averageSpeed)
 
-        Log.d("TrackingSession", "Session ended: Duration=${durationSeconds}s, AvgSpeed=$averageSpeed, Mode=$movementMode")
+        Log.d("TrackingSession", "Session ended: Duration=${durationSeconds}s, AvgSpeed=$averageSpeed, Mode=$movementMode, Distance=$totalDistance")
 
         return SessionResult(
             startTimestamp = startTimestamp,
@@ -114,11 +150,10 @@ class TrackingSession {
             endTime = endTime,
             averageSpeed = averageSpeed,
             movementMode = movementMode,
-            gpsCoordinates = gpsCoordinates.toList()
+            gpsCoordinates = gpsCoordinates.toList(),
+            totalDistance = totalDistance
         )
     }
-
-
 
     private fun classifyMovementMode(avgSpeedMps: Float): MovementMode {
         return when {
@@ -133,8 +168,6 @@ class TrackingSession {
     }
 
     fun isCurrentlyTracking(): Boolean = isTracking
-
-    fun getRecordedPointsCount(): Int = gpsCoordinates.size
 }
 
 data class SessionResult(
@@ -145,5 +178,6 @@ data class SessionResult(
     val endTime: String,
     val averageSpeed: Float,
     val movementMode: MovementMode,
-    val gpsCoordinates: List<GpsCoordinate>
+    val gpsCoordinates: List<GpsCoordinate>,
+    val totalDistance: Double = 0.0 // NEW: Add distance to result
 )

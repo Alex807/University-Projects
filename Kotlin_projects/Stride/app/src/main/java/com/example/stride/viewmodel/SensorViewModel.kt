@@ -1,6 +1,14 @@
 package com.example.stride.viewmodel
 
+
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.IBinder
+import com.example.stride.service.TrackingService
 import android.app.Application
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +19,7 @@ import com.example.stride.location.GeocodingService
 import com.example.stride.sensors.*
 import com.example.stride.sound.MovementSoundManager
 import com.example.stride.MovementVibrationManager
+import com.example.stride.location.LocationDetails
 import com.example.stride.tracking.TrackingSession
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,7 +28,7 @@ import java.util.*
 
 class SensorViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val locationManager = com.example.stride.sensors.LocationManager(application)
+    private val locationManager = LocationManager(application)
     private val accelerometerManager = AccelerometerManager(application)
     private val hybridSpeedFusion = HybridSpeedFusion()
     private val movementClassifier = MovementClassifier()
@@ -27,8 +36,12 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
     private val vibrationManager = MovementVibrationManager(application)
     private val geocodingService = GeocodingService(application)
     private val userPreferences = UserPreferences(application)
+    private var isAppInForeground = false
+    private var startLocationName: String = "Unknown"
+    private var hasGottenStartLocation: Boolean = false
+    private var trackingService: TrackingService? = null
+    private var isServiceBound = false
 
-    // NEW: Tracking session
     private val trackingSession = TrackingSession()
 
     private val database = AppDatabase.getDatabase(application)
@@ -46,14 +59,40 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
     private val _sessions = MutableStateFlow<List<SensorSample>>(emptyList())
     val sessions: StateFlow<List<SensorSample>> = _sessions
 
-    // NEW: Tracking state
     val isTracking: StateFlow<Boolean> = trackingSession.isTrackingFlow
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as TrackingService.LocalBinder
+            trackingService = binder.getService()
+
+            // NEW: Pass TrackingSession and stop callback
+            trackingService?.setTrackingSession(
+                trackingSession,
+                onStopCallback = { stopTrackingAndSave() }
+            )
+
+            isServiceBound = true
+            Log.d("SensorViewModel", "Service connected and bound")
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            trackingService = null
+            isServiceBound = false
+            Log.d("SensorViewModel", "Service disconnected")
+        }
+    }
 
     private var previousMode: MovementMode? = null
 
     init {
         observeSensors()
         loadSampleCount()
+    }
+
+    fun setAppInForeground(inForeground: Boolean) {
+        isAppInForeground = inForeground
+        Log.d("SensorViewModel", "App foreground state: $inForeground")
     }
 
     private fun observeSensors() {
@@ -73,11 +112,26 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
                     gnssQualityScore = gnssQuality.score
                 )
 
+                // Update service with current speed
+                trackingService?.updateSpeed(fusedSpeed)
+
+                //Get start location name only once when tracking starts
+                if (trackingSession.isCurrentlyTracking() && !hasGottenStartLocation) {
+                    getStartLocationName(location.latitude, location.longitude)
+                    hasGottenStartLocation = true
+                }
+
                 val movementMode = movementClassifier.classifyMovement(fusedSpeed)
 
                 if (movementMode != previousMode && previousMode != null) {
                     soundManager.playSound(movementMode)
-                    vibrationManager.vibrateForMovementMode(movementMode.toString())
+
+                    if (isAppInForeground) {
+                        vibrationManager.vibrateForMovementMode(movementMode.toString())
+                        Log.d("SensorViewModel", "Vibration triggered (foreground)")
+                    } else {
+                        Log.d("SensorViewModel", "Vibration skipped (background)")
+                    }
                 }
                 previousMode = movementMode
 
@@ -95,10 +149,27 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
                     )
                 }
 
-                // NEW: Add to tracking session if active
+                // Record location and speed if tracking
                 if (trackingSession.isCurrentlyTracking()) {
                     trackingSession.addLocationAndSpeed(location, fusedSpeed)
                 }
+            }
+        }
+    }
+
+    private fun getStartLocationName(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            try {
+                val locationDetails = geocodingService.getLocationDetails(latitude, longitude)
+                startLocationName = locationDetails.city.ifEmpty {
+                    locationDetails.streetName.ifEmpty { "Unknown" }
+                }
+                trackingService?.updateLocationName(startLocationName)
+                Log.d("SensorViewModel", "Start location name: $startLocationName")
+            } catch (e: Exception) {
+                Log.e("SensorViewModel", "Error getting start location name", e)
+                startLocationName = "Unknown"
+                trackingService?.updateLocationName(startLocationName)
             }
         }
     }
@@ -111,9 +182,25 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    // NEW: Start tracking session
+    fun stopSensors() {
+        viewModelScope.launch {
+            locationManager.stopLocationUpdates()
+            accelerometerManager.stopListening()
+            Log.d("SensorViewModel", "Sensors stopped")
+        }
+    }
+
     fun startTracking() {
+        Log.d("SensorViewModel", "Starting tracking session")
         trackingSession.startTracking()
+
+        // Reset location flag
+        hasGottenStartLocation = false
+        startLocationName = "Unknown"
+
+        // Start foreground service
+        startTrackingService()
+
         _saveStatus.value = "Recording started..."
         viewModelScope.launch {
             kotlinx.coroutines.delay(2000)
@@ -121,7 +208,6 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    // NEW: Stop tracking and save session
     fun stopTrackingAndSave() {
         viewModelScope.launch {
             try {
@@ -130,6 +216,9 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
                     _saveStatus.value = "Error: Not logged in"
                     kotlinx.coroutines.delay(2000)
                     _saveStatus.value = null
+
+                    // Stop foreground service even if not logged in
+                    stopTrackingService()
                     return@launch
                 }
 
@@ -141,10 +230,12 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
                     _saveStatus.value = "No data recorded"
                     kotlinx.coroutines.delay(2000)
                     _saveStatus.value = null
+
+                    // Stop foreground service
+                    stopTrackingService()
                     return@launch
                 }
 
-                // Get location details from first coordinate
                 val firstCoordinate = sessionResult.gpsCoordinates.firstOrNull()
                 val locationDetails = if (firstCoordinate != null) {
                     geocodingService.getLocationDetails(
@@ -152,7 +243,7 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
                         firstCoordinate.longitude
                     )
                 } else {
-                    com.example.stride.location.LocationDetails(
+                    LocationDetails(
                         city = "Unknown",
                         streetName = "Unknown",
                         streetNumber = ""
@@ -190,14 +281,59 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
 
                 kotlinx.coroutines.delay(3000)
                 _saveStatus.value = null
+
             } catch (e: Exception) {
                 _saveStatus.value = "Error: ${e.message}"
                 Log.e("SensorViewModel", "Error saving session", e)
 
                 kotlinx.coroutines.delay(2000)
                 _saveStatus.value = null
+            } finally {
+                // ALWAYS stop the foreground service when tracking ends
+                stopTrackingService()
             }
         }
+    }
+
+    private fun startTrackingService() {
+        val context = getApplication<Application>().applicationContext
+
+        val serviceIntent = Intent(context, TrackingService::class.java).apply {
+            action = TrackingService.ACTION_START_SERVICE
+        }
+
+        // Start foreground service
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(serviceIntent)
+        } else {
+            context.startService(serviceIntent)
+        }
+
+        // Bind to service
+        val bindIntent = Intent(context, TrackingService::class.java)
+        context.bindService(bindIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+
+        Log.d("SensorViewModel", "Tracking service started")
+    }
+
+    private fun stopTrackingService() {
+        val context = getApplication<Application>().applicationContext
+
+        if (isServiceBound) {
+            try {
+                context.unbindService(serviceConnection)
+            } catch (e: Exception) {
+                Log.e("SensorViewModel", "Error unbinding service", e)
+            }
+            isServiceBound = false
+        }
+
+        val serviceIntent = Intent(context, TrackingService::class.java).apply {
+            action = TrackingService.ACTION_STOP_SERVICE
+        }
+        context.startService(serviceIntent)
+
+        Log.d("SensorViewModel", "Tracking service stopped")
     }
 
     fun loadSampleCount() {
@@ -212,16 +348,6 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
             } catch (e: Exception) {
                 Log.e("SensorViewModel", "Error loading sample count", e)
             }
-        }
-    }
-
-    fun showCount() {
-        viewModelScope.launch {
-            val count = _uiState.value.sampleCount
-            _countStatus.value = "Total sessions: $count"
-
-            kotlinx.coroutines.delay(2000)
-            _countStatus.value = null
         }
     }
 
@@ -253,8 +379,16 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    // MODIFY onCleared() to unbind service
     override fun onCleared() {
         super.onCleared()
+
+        if (isServiceBound) {
+            val context = getApplication<Application>().applicationContext
+            context.unbindService(serviceConnection)
+            isServiceBound = false
+        }
+
         locationManager.stopLocationUpdates()
         accelerometerManager.stopListening()
         soundManager.release()

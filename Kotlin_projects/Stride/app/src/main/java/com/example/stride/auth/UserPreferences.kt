@@ -118,9 +118,13 @@ class UserPreferences(context: Context) {
         }
     }
 
-    fun clearSavedAccounts() {
-        sharedPreferences.edit {
-            remove(KEY_SAVED_ACCOUNTS)
-        }
+    // Add to UserPreferences class
+    fun setSensorsStarted(started: Boolean) {
+        sharedPreferences.edit { putBoolean("sensors_started", started) }
     }
+
+    fun areSensorsStarted(): Boolean {
+        return sharedPreferences.getBoolean("sensors_started", false)
+    }
+
 }
