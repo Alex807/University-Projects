@@ -10,7 +10,8 @@ import com.google.gson.reflect.TypeToken
 data class GpsCoordinate(
     val latitude: Double,
     val longitude: Double,
-    val timestamp: Long
+    val timestamp: Long,
+    val accuracy: Float = 10f
 )
 
 class Converters {
@@ -37,6 +38,11 @@ data class SensorSample(
     val city: String,
     val streetName: String,
     val streetNumber: String,
+
+    val endCity: String = "Unknown",
+    val endStreetName: String = "",
+    val endStreetNumber: String = "",
+    val totalDistanceMeters: Double = 0.0,
 
     // Session timing
     val startTimestamp: Long,

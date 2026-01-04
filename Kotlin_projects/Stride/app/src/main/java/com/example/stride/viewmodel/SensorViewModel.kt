@@ -18,18 +18,23 @@ import com.example.stride.data.SensorSample
 import com.example.stride.location.GeocodingService
 import com.example.stride.sensors.*
 import com.example.stride.sound.MovementSoundManager
+import com.example.stride.sensors.MovementClassifier
 import com.example.stride.MovementVibrationManager
 import com.example.stride.location.LocationDetails
 import com.example.stride.tracking.TrackingSession
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.coroutines.cancellation.CancellationException
 
 class SensorViewModel(application: Application) : AndroidViewModel(application) {
 
     private val locationManager = LocationManager(application)
     private val accelerometerManager = AccelerometerManager(application)
+    private val stepDetector = StepDetector(application)
     private val hybridSpeedFusion = HybridSpeedFusion()
     private val movementClassifier = MovementClassifier()
     private val soundManager = MovementSoundManager(application)
@@ -42,7 +47,7 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
     private var trackingService: TrackingService? = null
     private var isServiceBound = false
 
-    private val trackingSession = TrackingSession()
+    private var trackingSession = TrackingSession()
 
     private val database = AppDatabase.getDatabase(application)
     private val sampleDao = database.sensorSampleDao()
@@ -66,10 +71,11 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
             val binder = service as TrackingService.LocalBinder
             trackingService = binder.getService()
 
-            // NEW: Pass TrackingSession and stop callback
+            //Pass TrackingSession with both callbacks
             trackingService?.setTrackingSession(
-                trackingSession,
-                onStopCallback = { stopTrackingAndSave() }
+                session = trackingSession,
+                onStopCallback = { stopTrackingAndSave() },
+                onStartNewCallback = { startTracking() }
             )
 
             isServiceBound = true
@@ -86,6 +92,9 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
     private var previousMode: MovementMode? = null
 
     init {
+        locationManager.startLocationUpdates()
+        accelerometerManager.startListening()
+        stepDetector.startListening()
         observeSensors()
         loadSampleCount()
     }
@@ -97,62 +106,104 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
 
     private fun observeSensors() {
         viewModelScope.launch {
-            combine(
-                locationManager.locationFlow,
-                locationManager.filteredSpeedFlow,
-                accelerometerManager.accelerometerSpeedFlow,
-                locationManager.gnssQualityFlow
-            ) { location, gpsSpeed, accelSpeed, gnssQuality ->
-                FourTuple(location, gpsSpeed, accelSpeed, gnssQuality)
-            }.collect { (location, gpsSpeed, accelSpeed, gnssQuality) ->
-
-                val fusedSpeed = hybridSpeedFusion.fuseSpeed(
-                    gpsSpeed = gpsSpeed,
-                    accelerometerSpeed = accelSpeed,
-                    gnssQualityScore = gnssQuality.score
-                )
-
-                // Update service with current speed
-                trackingService?.updateSpeed(fusedSpeed)
-
-                //Get start location name only once when tracking starts
-                if (trackingSession.isCurrentlyTracking() && !hasGottenStartLocation) {
-                    getStartLocationName(location.latitude, location.longitude)
-                    hasGottenStartLocation = true
-                }
-
-                val movementMode = movementClassifier.classifyMovement(fusedSpeed)
-
-                if (movementMode != previousMode && previousMode != null) {
-                    soundManager.playSound(movementMode)
-
-                    if (isAppInForeground) {
-                        vibrationManager.vibrateForMovementMode(movementMode.toString())
-                        Log.d("SensorViewModel", "Vibration triggered (foreground)")
-                    } else {
-                        Log.d("SensorViewModel", "Vibration skipped (background)")
+            try {
+                locationManager.locationFlow
+                    .combine(locationManager.filteredSpeedFlow) { location, gpsSpeed ->
+                        Pair(location, gpsSpeed)
                     }
-                }
-                previousMode = movementMode
+                    .combine(accelerometerManager.accelerometerSpeedFlow) { pair, accelSpeed ->
+                        Triple(pair.first, pair.second, accelSpeed)
+                    }
+                    .combine(locationManager.gnssQualityFlow) { triple, gnssQuality ->
+                        FourTuple(triple.first, triple.second, triple.third, gnssQuality)
+                    }
+                    .combine(stepDetector.isWalking) { fourTuple, isWalking ->
+                        FiveTuple(fourTuple.first, fourTuple.second, fourTuple.third, fourTuple.fourth, isWalking)
+                    }
+                    .combine(stepDetector.stepsPerMinute) { fiveTuple, stepsPerMin ->
+                        SixTuple(fiveTuple.first, fiveTuple.second, fiveTuple.third, fiveTuple.fourth, fiveTuple.fifth, stepsPerMin)
+                    }
+                    .collect { sixTuple ->
+                        try {
+                            val location = sixTuple.first
+                            val gpsSpeed = sixTuple.second
+                            val accelSpeed = sixTuple.third
+                            val gnssQuality = sixTuple.fourth
+                            val isWalking = sixTuple.fifth
+                            val stepsPerMin = sixTuple.sixth
 
-                _uiState.update {
-                    it.copy(
-                        latitude = location.latitude,
-                        longitude = location.longitude,
-                        rawGnssSpeed = gpsSpeed,
-                        accelerometerSpeed = accelSpeed,
-                        fusedSpeed = fusedSpeed,
-                        gnssQualityScore = gnssQuality.score,
-                        satelliteCount = gnssQuality.satelliteCount,
-                        avgSnr = gnssQuality.avgSnr,
-                        movementMode = movementMode
-                    )
-                }
+                            val stepSpeed = stepDetector.getEstimatedSpeed()
 
-                // Record location and speed if tracking
-                if (trackingSession.isCurrentlyTracking()) {
-                    trackingSession.addLocationAndSpeed(location, fusedSpeed)
-                }
+                            val effectiveSpeed = when {
+                                isWalking && stepSpeed > 0.3 -> stepSpeed
+                                gpsSpeed > 2.0 -> gpsSpeed
+                                else -> maxOf(gpsSpeed, accelSpeed)
+                            }
+
+                            val movementMode = movementClassifier.classifyMovement(effectiveSpeed)
+                            val movementModeString = movementMode.name
+
+                            accelerometerManager.setMovementMode(movementModeString)
+
+                            val gnssScore = (gnssQuality.score / 100.0).coerceIn(0.0, 1.0)
+
+                            val fusedSpeed = hybridSpeedFusion.fuseSpeed(
+                                gpsSpeed = gpsSpeed,
+                                accelerometerSpeed = accelSpeed,
+                                gnssQualityScore = gnssScore,
+                                stepDetectorSpeed = stepSpeed,
+                                isWalking = isWalking,
+                                movementMode = movementModeString
+                            )
+
+                            if (trackingSession.isCurrentlyTracking()) {
+                                trackingSession.updateMovementMode(movementMode)
+                            }
+
+                            trackingService?.updateSpeed(fusedSpeed)
+                            trackingService?.updateCurrentLocation(location.latitude, location.longitude)
+
+                            if (trackingSession.isCurrentlyTracking() && !hasGottenStartLocation) {
+                                if (location.hasAccuracy() && location.accuracy <= 30f) {
+                                    getStartLocationName(location.latitude, location.longitude)
+                                    hasGottenStartLocation = true
+                                }
+                            }
+
+                            if (movementMode != previousMode && previousMode != null) {
+                                soundManager.playSound(movementMode)
+
+                                if (isAppInForeground) {
+                                    vibrationManager.vibrateForMovementMode(movementMode.toString())
+                                }
+                            }
+                            previousMode = movementMode
+
+                            _uiState.update {
+                                it.copy(
+                                    latitude = location.latitude,
+                                    longitude = location.longitude,
+                                    rawGnssSpeed = gpsSpeed,
+                                    accelerometerSpeed = accelSpeed,
+                                    fusedSpeed = fusedSpeed,
+                                    gnssQualityScore = gnssQuality.score,
+                                    satelliteCount = gnssQuality.satelliteCount,
+                                    avgSnr = gnssQuality.avgSnr,
+                                    movementMode = movementMode
+                                )
+                            }
+
+                            if (trackingSession.isCurrentlyTracking()) {
+                                trackingSession.addLocationAndSpeed(location, fusedSpeed)
+                            }
+                        } catch (e: Exception) {
+                            Log.e("SensorViewModel", "Error processing sensor data", e)
+                        }
+                    }
+            } catch (e: CancellationException) {
+                Log.d("SensorViewModel", "observeSensors cancelled")
+            } catch (e: Exception) {
+                Log.e("SensorViewModel", "Fatal error in observeSensors", e)
             }
         }
     }
@@ -160,16 +211,14 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
     private fun getStartLocationName(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             try {
-                val locationDetails = geocodingService.getLocationDetails(latitude, longitude)
-                startLocationName = locationDetails.city.ifEmpty {
-                    locationDetails.streetName.ifEmpty { "Unknown" }
-                }
-                trackingService?.updateLocationName(startLocationName)
-                Log.d("SensorViewModel", "Start location name: $startLocationName")
+                // Wait 1 seconds before geocoding
+                delay(1000)
+
+                // Call the new function that gets both city and street
+                trackingService?.updateStartLocation(latitude, longitude)
+                Log.d("SensorViewModel", "Updating start location with coordinates: $latitude, $longitude")
             } catch (e: Exception) {
-                Log.e("SensorViewModel", "Error getting start location name", e)
-                startLocationName = "Unknown"
-                trackingService?.updateLocationName(startLocationName)
+                Log.w("SensorViewModel", "Failed to get location name: ${e.message}")
             }
         }
     }
@@ -192,6 +241,7 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
 
     fun startTracking() {
         Log.d("SensorViewModel", "Starting tracking session")
+        trackingSession = TrackingSession()  //important for start another session from notif(create a new session each time)
         trackingSession.startTracking()
 
         // Reset location flag
@@ -201,9 +251,19 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
         // Start foreground service
         startTrackingService()
 
+        // Set tracking session immediately if service is already bound
+        if (isServiceBound && trackingService != null) {
+            trackingService?.setTrackingSession(
+                session = trackingSession,
+                onStopCallback = { stopTrackingAndSave() },
+                onStartNewCallback = { startTracking() }
+            )
+        }
+
         _saveStatus.value = "Recording started..."
         viewModelScope.launch {
-            kotlinx.coroutines.delay(2000)
+
+            delay(2000)
             _saveStatus.value = null
         }
     }
@@ -211,10 +271,16 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
     fun stopTrackingAndSave() {
         viewModelScope.launch {
             try {
+                if (!trackingSession.isCurrentlyTracking()) {
+                    Log.d("SensorViewModel", "No active session to save")
+                    stopTrackingService()
+                    return@launch
+                }
+
                 val username = userPreferences.getUsername()
                 if (username == null) {
                     _saveStatus.value = "Error: Not logged in"
-                    kotlinx.coroutines.delay(2000)
+                    delay(2000)
                     _saveStatus.value = null
 
                     // Stop foreground service even if not logged in
@@ -228,7 +294,7 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
 
                 if (sessionResult == null) {
                     _saveStatus.value = "No data recorded"
-                    kotlinx.coroutines.delay(2000)
+                    delay(2000)
                     _saveStatus.value = null
 
                     // Stop foreground service
@@ -237,17 +303,48 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
                 }
 
                 val firstCoordinate = sessionResult.gpsCoordinates.firstOrNull()
+                val lastCoordinate = sessionResult.gpsCoordinates.lastOrNull()
+
+                // Try geocoding, but use "Unknown" if it fails (offline)
                 val locationDetails = if (firstCoordinate != null) {
-                    geocodingService.getLocationDetails(
-                        firstCoordinate.latitude,
-                        firstCoordinate.longitude
-                    )
+                    try {
+                        withTimeout(5000) { // 5 second timeout
+                            geocodingService.getLocationDetails(
+                                firstCoordinate.latitude,
+                                firstCoordinate.longitude
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.w("SensorViewModel", "Geocoding failed (offline?): ${e.message}")
+                        LocationDetails(
+                            city = "Offline",
+                            streetName = "Offline",
+                            streetNumber = ""
+                        )
+                    }
                 } else {
                     LocationDetails(
                         city = "Unknown",
                         streetName = "Unknown",
                         streetNumber = ""
                     )
+                }
+
+                // Get end location details
+                val endLocationDetails = if (lastCoordinate != null && lastCoordinate != firstCoordinate) {
+                    try {
+                        withTimeout(5000) {
+                            geocodingService.getLocationDetails(
+                                lastCoordinate.latitude,
+                                lastCoordinate.longitude
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.w("SensorViewModel", "End location geocoding failed: ${e.message}")
+                        locationDetails // Use start location as fallback
+                    }
+                } else {
+                    locationDetails
                 }
 
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -258,6 +355,10 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
                     city = locationDetails.city,
                     streetName = locationDetails.streetName,
                     streetNumber = locationDetails.streetNumber,
+                    endCity = endLocationDetails.city,
+                    endStreetName = endLocationDetails.streetName,
+                    endStreetNumber = endLocationDetails.streetNumber,
+                    totalDistanceMeters = sessionResult.totalDistance, //save distance for having same values stored in db
                     startTimestamp = sessionResult.startTimestamp,
                     endTimestamp = sessionResult.endTimestamp,
                     durationSeconds = sessionResult.durationSeconds,
@@ -273,11 +374,50 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
                     date = currentDate
                 )
 
-                sampleDao.insert(sample)
+                val insertedId = sampleDao.insert(sample).toInt() // Get the inserted session ID
                 loadSampleCount()
 
-                _saveStatus.value = "Session saved! (${sessionResult.gpsCoordinates.size} points)"
-                Log.d("SensorViewModel", "Session saved: ${sessionResult.gpsCoordinates.size} coordinates, Avg Speed=${sessionResult.averageSpeed}")
+                // Show distance in save confirmation
+                val distanceKm = sessionResult.totalDistance / 1000.0
+
+                // Detect if this was an auto-save (app closed)
+                val isAutoSave = !isAppInForeground
+                val saveMessage = if (isAutoSave) {
+                    "Session auto-saved! Distance: %.2f km (%d points)".format(
+                        distanceKm,
+                        sessionResult.gpsCoordinates.size
+                    )
+                } else {
+                    "Session saved! Distance: %.2f km (%d points)".format(
+                        distanceKm,
+                        sessionResult.gpsCoordinates.size
+                    )
+                }
+
+                _saveStatus.value = saveMessage
+                Log.d("SensorViewModel", "Session saved with ID: $insertedId, ${sessionResult.gpsCoordinates.size} coordinates, Distance=${sessionResult.totalDistance}m, AutoSave=$isAutoSave")
+                Log.d("SensorViewModel", "Session saved with ID: $insertedId, ${sessionResult.gpsCoordinates.size} coordinates, Distance=${sessionResult.totalDistance}m")
+
+                // NEW: Show session saved notification
+                val startLocationName = if (locationDetails.streetName.isNotEmpty() && locationDetails.streetName != "Offline") {
+                    "${locationDetails.city}, ${locationDetails.streetName}"
+                } else {
+                    locationDetails.city
+                }
+
+                val endLocationName = if (endLocationDetails.streetName.isNotEmpty() && endLocationDetails.streetName != "Offline") {
+                    "${endLocationDetails.city}, ${endLocationDetails.streetName}"
+                } else {
+                    endLocationDetails.city
+                }
+
+                // Call the notification function from the service
+                trackingService?.showSessionSavedNotification(
+                    sessionId = insertedId,
+                    startLocation = startLocationName,
+                    endLocation = endLocationName,
+                    totalDistanceMeters = sessionResult.totalDistance
+                )
 
                 kotlinx.coroutines.delay(3000)
                 _saveStatus.value = null
@@ -285,11 +425,9 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
             } catch (e: Exception) {
                 _saveStatus.value = "Error: ${e.message}"
                 Log.e("SensorViewModel", "Error saving session", e)
-
                 kotlinx.coroutines.delay(2000)
                 _saveStatus.value = null
             } finally {
-                // ALWAYS stop the foreground service when tracking ends
                 stopTrackingService()
             }
         }
@@ -297,6 +435,19 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
 
     private fun startTrackingService() {
         val context = getApplication<Application>().applicationContext
+
+        // check if service is already bound
+        if (isServiceBound && trackingService != null) {
+            Log.d("SensorViewModel", "Service already bound, just starting foreground")
+
+            // Service is already bound, just start foreground mode
+            val serviceIntent = Intent(context, TrackingService::class.java).apply {
+                action = TrackingService.ACTION_START_SERVICE
+            }
+            context.startService(serviceIntent)
+
+            return
+        }
 
         val serviceIntent = Intent(context, TrackingService::class.java).apply {
             action = TrackingService.ACTION_START_SERVICE
@@ -309,11 +460,16 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
             context.startService(serviceIntent)
         }
 
-        // Bind to service
-        val bindIntent = Intent(context, TrackingService::class.java)
-        context.bindService(bindIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+        // wait for service to be ready before binding
+        viewModelScope.launch {
+            delay(500) // Give service time to start
 
-        Log.d("SensorViewModel", "Tracking service started")
+            // Now bind to service
+            val bindIntent = Intent(context, TrackingService::class.java)
+            context.bindService(bindIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+
+            Log.d("SensorViewModel", "Tracking service started and binding initiated")
+        }
     }
 
     private fun stopTrackingService() {
@@ -382,16 +538,20 @@ class SensorViewModel(application: Application) : AndroidViewModel(application) 
     // MODIFY onCleared() to unbind service
     override fun onCleared() {
         super.onCleared()
-
-        if (isServiceBound) {
-            val context = getApplication<Application>().applicationContext
-            context.unbindService(serviceConnection)
-            isServiceBound = false
-        }
-
         locationManager.stopLocationUpdates()
         accelerometerManager.stopListening()
+        stepDetector.stopListening()
         soundManager.release()
+
+        // Unbind service
+        if (isServiceBound) {
+            try {
+                getApplication<Application>().unbindService(serviceConnection)
+                isServiceBound = false
+            } catch (e: Exception) {
+                Log.e("SensorViewModel", "Error unbinding service: ${e.message}")
+            }
+        }
     }
 }
 
@@ -400,4 +560,21 @@ private data class FourTuple<A, B, C, D>(
     val second: B,
     val third: C,
     val fourth: D
+)
+
+private data class FiveTuple<A, B, C, D, E>(
+    val first: A,
+    val second: B,
+    val third: C,
+    val fourth: D,
+    val fifth: E
+)
+
+private data class SixTuple<A, B, C, D, E, F>(
+    val first: A,
+    val second: B,
+    val third: C,
+    val fourth: D,
+    val fifth: E,
+    val sixth: F
 )

@@ -1,6 +1,7 @@
 package com.example.stride.ui.theme
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +29,9 @@ fun SessionsListScreen(
     viewModel: SensorViewModel,
     onBack: () -> Unit
 ) {
+
+    BackHandler(onBack = onBack) // to control the back OS button behavior
+
     val sessions by viewModel.sessions.collectAsState()
     var selectedSession by remember { mutableStateOf<SensorSample?>(null) }
     var sessionToDelete by remember { mutableStateOf<SensorSample?>(null) }
@@ -112,7 +117,7 @@ fun SessionsListScreen(
                     .fillMaxSize()
                     .padding(paddingValues)
                     .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp),
                 contentPadding = PaddingValues(vertical = 16.dp)
             ) {
                 items(sessions) { session ->
@@ -127,6 +132,7 @@ fun SessionsListScreen(
     }
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 private fun SessionCard(
     session: SensorSample,
@@ -143,14 +149,46 @@ private fun SessionCard(
         MovementMode.TRAIN -> Color(0xFF8631DA)
     }
 
+    val distanceMeters = session.totalDistanceMeters
+
+    // Format distance
+    val distanceText = if (distanceMeters >= 1000) {
+        String.format("%.2f km", distanceMeters / 1000)
+    } else {
+        String.format("%.0f m", distanceMeters)
+    }
+
+    // Format location as "Start City - End City"
+    val startLocation = session.city
+
+    val endLocation = if (session.endCity.isNotEmpty() && session.endCity != "Unknown") {
+        if (session.endStreetName.isNotEmpty() && session.endStreetName != "Unknown" && session.endStreetName != "Offline") {
+            "${session.endCity}, ${session.endStreetName}"
+        } else {
+            session.endCity
+        }
+    } else {
+        session.city  // Fallback to start city if end city not available
+    }
+
+    val locationDisplay = if (startLocation == endLocation) {
+        startLocation  // Same location, show once
+    } else {
+        "$startLocation → $endLocation"  // Different locations, show route
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
+        ),
+        border = androidx.compose.foundation.BorderStroke(
+            width = 2.dp,
+            color = modeColor.copy(alpha = 0.3f)
         )
     ) {
         Column(
@@ -255,16 +293,43 @@ private fun SessionCard(
                 )
 
                 StatItem(
-                    label = "GPS Points",
-                    value = "${session.gpsCoordinates.size}",
+                    label = "Total Distance",
+                    value = distanceText,
                     color = Color(0xFF2196F3)
                 )
 
-                StatItem(
-                    label = "Location",
-                    value = session.city,
-                    color = Color(0xFFFF9800)
-                )
+                // Location display - CHANGED to show route
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "Route",
+                        fontSize = 10.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = locationDisplay,
+                        fontSize = 12.sp,  // Slightly smaller for longer text
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFFF9800),
+                        maxLines = 2,  // Allow 2 lines for long city names
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Bottom accent bar for visual separation
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(3.dp),
+                    color = modeColor.copy(alpha = 0.4f),
+                    shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+                ) {}
             }
         }
     }
